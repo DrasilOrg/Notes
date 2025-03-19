@@ -1,6 +1,6 @@
 # `Chunk`
 
-Boxes of knowledge.
+Statements of fact implemented with record `data` types (in Haskell).
 
 ## Who
 
@@ -8,7 +8,11 @@ We will give you three examples of chunks with varying degrees of information
 density/usability:
 * A [dense](#dense) one.
 * A [light](#light) one.
-* A [trivial](#trivial) one.
+* A [meaningless](#meaningless) one.
+
+<div style="width: 100%; background-color: yellow; padding: 10px; color: black;">
+    ⚠️ Note: the definition of the above three terms is imperfect.
+</div>
 
 ### Dense
 
@@ -70,17 +74,108 @@ smithLai2005 = cInProceedings [spencerSmith, lLai]
   note "In conjunction with 13th IEEE International Requirements Engineering Conference,"] 
   "smithLai2005"
 ```
+We call this one “light” because there's little we can do with it apart from
+simple rendering. Yes, we can calculate various statistics (e.g., how many times
+we cite specific authors, years our cited works were most published, journals we
+find ourselves citing the most, etc.), but from the perspective of a software
+engineer, there's just not much we can do with this information other than
+generate pretty, correctly formatted bibliographies. Additionally, there's
+little we can do to audit any of the information in it. There's little internal
+consistency we can enforce.
 
-### Trivial
+### Meaningless
+
+By “meaningless,” we mean _to the computer_. These chunks are like prescriptions
+of a new character you've never seen before. They mean nothing. It's only
+through building relations between them and other things, that they may become
+usable in some way. “There's almost no substance to these definitions.” For
+example, the [following
+code](https://github.com/JacquesCarette/Drasil/blob/d4d4b4718d1158294c0376fadf3014e24d921974/code/drasil-data/lib/Data/Drasil/Concepts/Math.hs#L25-L34)
+defines a few mathematical concepts, but only in English statements (rewritten
+for space):
+```haskell
+amplitude, angle, area, ... :: ConceptChunk
+amplitude = dcc "amplitude"
+    (nounPhraseSP "amplitude")
+    "The peak deviation of a function from zero"
+angle = dcc "angle"
+    (cn' "angle")
+    "the amount of rotation needed to bring one line or plane into coincidence with another"
+area = dcc "area"
+    (cn' "area")
+    "a part of an object or surface"
+```
+
+These chunks, alone, are essentially meaningless. You can try using them to
+generate anything non-trivial/naïve, and you'll quickly understand what we mean.
+They are normally either ripe for reconstruction (with more meaningful records
+that we can use for software generation), or, they're just very abstract and
+only give us anything through surrounding chunks giving us tidbits of knowledge
+about them. 
+
+TODO: Example of both situations. I'm not confident that this is a good
+definition. I think the former is okay, but I'm not sure if I can come up with a
+good example of the latter. It's more like a constant symbol?
+
+<!-- <div style="width: 100%; background-color: yellow; padding: 10px; color: black;">
+    ⚠️ Note: 
+</div> -->
 
 ## What
 
-
+Chunks are _statements of fact_. With Haskell, we implement them as record
+`data` types carrying a unique identifier (a `UID`) at minimum. Normally, we
+want them to also declare noun (which can be compound/a noun phrase). For
+example, “torque” alone might denote an abstract concept of torque and “torque
+acting on the screw” might denote a specific instance of torque with a specific
+mathematical symbol, defining expression, and so on.
 
 ## Where
 
+TODO.
+
 ## When
+
+Instances of `Chunk` are _only created by users of Drasil_. If Drasil were a
+compiler, you may think of `Chunk`s as pieces of a library you would import.
+Explicitly, `Chunk`s are only _referenced_ during the generation (compilation)
+step, and no new `Chunk`s should be created through Drasil's generators.
 
 ## Why
 
+TODO.
+
 ## How
+
+The general form of a chunk definition is as follows:
+```haskell
+data Author = Author {
+    uid :: UID,
+    person :: Person,
+    penName :: Text,
+    ...
+}
+```
+
+With Drasil, this looks more like:
+```haskell
+data Author = Author {
+    _aUID :: UID,
+    _aPerson :: Person,
+    _aPenName :: Text,
+    ...
+}
+makeLenses ''MyChunk
+
+instance HasUID         MyChunk where uid = aUID
+...
+```
+This is because of Drasil's code style guide preferring the use of classy
+lenses.
+
+<div style="width: 100%; background-color: yellow; padding: 10px; color: black;">
+    ⚠️ Note: While the above code snippets show `Person` as part of `MyChunk`,
+    if `Person` were a `Chunk` as well, then `Person` should really be 
+    `Ref Person` (i.e., a reference to a person). Unfortunately, at the moment,
+    this is not done as often as we would like it to be in Drasil.
+</div>
