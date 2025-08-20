@@ -58,6 +58,27 @@ tacit. The main deviation in the formulas used in $V_0$, $V_1$ and $V_2$ is in
 $p_{land}$ ($t_{flight}$'s formula is noted to be a sub-expression of
 $p_{land}$'s and so the cached calculation of $t_{flight}$ is reused).
 
-## [$V_3$: ?](./V3.py)
+## [$V_3$: Layered Phases + Library, Program Split + Documentation: Deliverable, maintainable, short-living software](./V3.py)
 
-## [$V_4$: Simulated Trajectory, Over-designed](./V4.py)
+$V_3$ refines $V_2$ in two ways:
+
+1. *Splitting off a library.* The program is split in two (within-file, via
+   `__name__` differentiation): an executable program and a library. The library
+   is meant to be production-ready, publishable with full coverage, extensive
+   documentation using conventional documentation software (`p[y]doc`).
+2. *Creating documentation.* Not included here, but is expected to be in a
+   nearby `../SRS` folder, is Projectile's software requirements specification
+   that includes derivations for the formulas used in the code. Additionally, it
+   contains more background/context information about when the library should be
+   used (i.e., when the SRS is applicable).
+
+Overall, $V_3$ is meant to maintainable specialty software well-suited for a
+well-defined use-case. While not specifically intended to be publically
+published, it is only a short few steps away from being so: 
+
+1. A design specification (at least a vague one).
+2. Continuous integration scripts.
+3. Testing scripts.
+4. A `README` w/ usage examples.
+5. Installation documentation.
+6. License.

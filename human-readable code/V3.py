@@ -14,16 +14,9 @@
 """
 PROJECTILE MOTION
   Samuel J. Crawford, Brooks MacLachlan, and W. Spencer Smith (2019)
+                {craw.., machl.., smiths}@mcmaster.ca
 
 Approximate whether a projectile hits a target.
-
-
-Copyright (c) 2019, Samuel J. Crawford, Brooks MacLachlan, and W. Spencer Smith.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-  1. ... (snip) ...
 """
 
 import math
@@ -38,7 +31,7 @@ class Constants:
     See <file://../SRS/Index.html#Tab:Constants> for more information.
     """
     g = 9.8  # Gravity constant, conventional assumption: 9.8 m/s^2.
-    epsilon = 2.0e-2  # A tolerance for hitting the target, 2% of the total distance.
+    epsilon = 2.0  # A tolerance for hitting the target, 2% (of the total distance to the target).
 
 #-------------------------------------------------------------------------------
 # CALCULATION TOOLS
@@ -47,60 +40,81 @@ class Constants:
 # resistance, and point mass.
 #-------------------------------------------------------------------------------
 
-def calc_flight_time(v_launch, theta, g=Constants.g):
+def flight_time(v_launch, theta, g=Constants.g):
     """Calculate the projectile's total time in the air (s)
-    
+
     Derived from <file://../SRS/Index.html#IM:flightDuration>.
 
     Args:
         v_launch (float): The initial launch velocity in m/s.
-        theta_rad (float): The launch angle in radians.
-
+        theta (float): The launch angle in radians.
+        g (float, optional): The acceleration due to gravity (m/s^2).
+                             Defaults to Constants.g.
     Returns:
         float: The total flight time in seconds.
     """
-    return 2.0 * v_launch * math.sin(theta) / Constants.g
+    assert v_launch > 0.0, "Failed constraint: please provide positive velocity."
+    assert 0.0 < theta < math.pi / 2.0, "Failed constraint: 0 < theta < pi/2"
+    assert g > 0.0, "Failed constraint: g must be positive."
+
+    return 2.0 * v_launch * math.sin(theta) / g
 
 
-def calc_landing_position(v_launch, theta, g=Constants.g):
+def landing_position(flight_time, v_launch, theta):
     """Calculates the projectile's landing distance from origin (m).
 
     Derived from <file://../SRS/Index.html#IM:landingPos>.
 
     Args:
+        flight_time (float): The total flight time in seconds.
         v_launch (float): The initial launch velocity in m/s.
-        theta_rad (float): The launch angle in radians.
+        theta (float): The launch angle in radians.
 
     Returns:
         float: The horizontal distance traveled in meters.
     """
-    return calc_flight_time(v_launch, theta) * v_launch * math.cos(theta)
+    assert flight_time >= 0.0, "Failed constraint: flight_time cannot be negative."
+    assert v_launch > 0.0, "Failed constraint: please provide positive velocity."
+    assert 0.0 < theta < math.pi / 2.0, "Failed constraint: 0 < theta < pi/2"
+
+    return flight_time * v_launch * math.cos(theta)
 
 
-def analyze_shot(p_land, p_target, eps=Constants.epsilon):
-    """Determines the outcome of the shot.
+def analyze_shot(v_launch, theta, p_target, g=Constants.g, eps=Constants.epsilon):
+    """Determines the outcome of the shot after running calculations.
 
     Derived from <file://../CodeSpec/Index.html#NFR:Outputs>.
 
     Args:
-        p_land (float): The projectile's calculated landing position in meters.
+        v_launch (float): The initial launch velocity in m/s.
+        theta (float): The launch angle in radians.
         p_target (float): The target's distance in meters.
+        g (float, optional): The acceleration due to gravity (m/s^2).
+                             Defaults to Constants.g.
+        eps (float, optional): The hit tolerance as a percentage (e.g., 2 for 2%).
+                               Defaults to Constants.epsilon.
 
     Returns:
-        tuple[float, str]: A tuple containing the offset distance (m) and the
-                           result message as a string.
+        tuple: A tuple containing the flight time (s), landing position (m),
+               offset from target (m), and the outcome message (str).
     """
-    offset = p_land - p_target
-    relative_offset = math.fabs(offset / p_target)
+    assert p_target > 0.0, "Failed constraint: target > 0m away"
+    assert 0 < eps < 100, "Failed constraint: epsilon must be between 0 and 100 %."
+    
+    t_flight = flight_time(v_launch, theta, g)
+    p_land = landing_position(t_flight, v_launch, theta)
 
-    if relative_offset < eps:
+    offset = p_land - p_target
+    relative_offset_pct = math.fabs(offset / p_target) * 100.0
+
+    if relative_offset_pct < eps:
         message = "The target was hit."
     elif offset < 0.0:
         message = "The projectile fell short."
     else:
         message = "The projectile went long."
 
-    return offset, message
+    return t_flight, p_land, offset, message
 
 
 if __name__ == '__main__':
@@ -113,25 +127,15 @@ if __name__ == '__main__':
     p_target = float(input("Distance to target? (m)"))  # The distance to the target.
 
     #---------------------------------------------------------------------------
-    # INPUT CONSTRAINTS
+    # CALCULATIONS & ANALYSIS
     #---------------------------------------------------------------------------
 
-    assert v_launch > 0.0, "Failed constraint: please provide positive velocity."
-    assert 0.0 < theta and theta < math.pi / 2.0, "Failed constraint: 0 < theta < pi/2"
-    assert p_target > 0.0, "Failed constraint: target > 0m away"
-
-    #---------------------------------------------------------------------------
-    # CALCULATIONS
-    #---------------------------------------------------------------------------
-
-    t_flight = calc_flight_time(v_launch, theta)
-    p_land = calc_landing_position(v_launch, theta)
-    d_offset, output_message = analyze_shot(p_land, p_target)
+    t_flight, p_land, d_offset, output_message = analyze_shot(v_launch, theta, p_target)
 
     #---------------------------------------------------------------------------
     # OUTPUTS
     #---------------------------------------------------------------------------
 
     print("Time in flight (s):", t_flight)
-    print(f"Landed at {p_land}m ({d_offset}m away from target)")
+    print(f"Landed at {p_land:.2f}m, {d_offset:.2f}m away from target")
     print(output_message)
