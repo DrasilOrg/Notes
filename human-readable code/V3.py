@@ -38,6 +38,8 @@ class Constants:
 #
 # Using kinematic model of projectile motion assuming constant gravity, no air
 # resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
 #-------------------------------------------------------------------------------
 
 def flight_time(v_launch, theta, g=Constants.g):
