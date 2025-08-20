@@ -13,7 +13,8 @@
 ################################################################################
 #
 # PROJECTILE MOTION
-#   Samuel J. Crawford, Brooks MacLachlan, and W. Spencer Smith (2019)
+#   Samuel J. Crawford, Brooks MacLachlan, and W. Spencer Smith (2019).
+#                 {craw.., machl.., smiths}@mcmaster.ca
 #
 # Approximate whether a projectile hits a target.
 #
@@ -37,7 +38,7 @@ theta = float(input("Launch angle? (rad)"))  # The angle at which the projectile
 p_target = float(input("Distance to target? (m)"))  # The distance to the target.
 
 #-------------------------------------------------------------------------------
-# INPUT CONSTRAINTS
+# VALIDATE INPUTS
 #-------------------------------------------------------------------------------
 
 assert v_launch > 0.0, "Failed constraint: please provide positive velocity."
