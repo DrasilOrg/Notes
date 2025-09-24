@@ -1,11 +1,129 @@
 # Variants
 
-Each variant ($V_x$) is numbered. $0$ is the “worst” working prototype with
-$+\infty$ being the unequivocally “best” possible version, somehow usable in
-any/all “enterprise” scenarios.
+## Configuration
 
-These variants are meant to satisfy the requirements mentioned in
-<https://github.com/JacquesCarette/Drasil/compare/main...FitFor-codeChanges>.
+```mermaid
+mindmap
+	root)Configuration(
+		kind{{Program<br>Kind}}
+			Library
+			exe{{Executable}}
+				uf{{Unsorted<br>Flow}}
+				sf{{Sorted<br>Flow}}
+		arch{{Code Layout}}
+			Monolithic
+		ws{{Whitespace}}
+			Minimal
+			Conventional
+		cs{{Constants}}
+			Inlined
+			cvs{{Variables}}
+				Grouped
+				DuplicatedWhereNeeded			
+```
+
+### Architecture
+
+#### Monolithic
+
+## Variants
+
+Each variant ($V_x$) is numbered. $0$ is the “worst” working prototype with $+\infty$ being the unequivocally “best” possible version, somehow usable in any/all “enterprise” scenarios. These variants are meant to satisfy the requirements mentioned in <https://github.com/JacquesCarette/Drasil/compare/main...FitFor-codeChanges>. 
+
+**Disclaimer**: I'm going to ignore at least: `space <-> type` options.
+
+### $V_{-1}$
+
+```python
+s = float(input("Launch velocity?"))
+Θ = float(input("Launch angle?"))
+import math
+d = s ** 2 * math.sin(Θ) * math.cos(Θ) * / 4.9
+print("Landing position:", d)
+```
+
+### $V_0$
+
+```python
+s = float(input("Launch velocity?"))
+Θ = float(input("Launch angle?"))
+import math
+p = s ** 2 * math.sin(Θ) * math.cos(Θ) * / 4.9
+print("Landing position:", p)
+f = float(input("Target distance?"))
+Δ = Δ - f
+print("Distance to target:", Δ)
+```
+
+* New variable: target distance
+
+### $V_1$
+
+```python
+s = float(input("Launch velocity?"))
+Θ = float(input("Launch angle?"))
+import math
+t = s * math.sin(Θ) / 4.9
+print("Flight time:", t)
+f = float(input("Target distance?"))
+p = t * s * math.cos(Θ)
+print("Landing position:", p)
+Δ = p - f
+print("Distance to target:", Δ)
+```
+
+### $V_2$
+
+```python
+s = float(input("Launch velocity?"))
+Θ = float(input("Launch angle?"))
+g = 9.8
+import math
+t = 2 * s * math.sin(Θ) / g
+f = float(input("Target distance?"))
+p = t * s * math.cos(Θ)
+print("Landing position:", p)
+Δ = p - f
+print("Flight time:", t)
+```
+
+### $V_3$
+
+```python
+s = float(input("Launch velocity?"))
+assert s > 0.0, "Failed constraint: Velocity must be strictly positive."
+Θ = float(input("Launch angle?"))
+import math
+assert 0.0 < theta and theta < math.pi / 2.0, "Failed constraint: 0 < theta < pi/2"
+g = 9.8
+t = 2.0 * s * math.sin(Θ) / g
+f = float(input("Target distance?"))
+assert f > 0.0, "Failed constraint: Target must be in direction of launcher."
+Δ = t * s * math.cos(Θ) - f
+print("Flight time:", t)
+tol = 2.0e-2
+if math.fabs(Δ / f) < 2.0e-2:
+    print("Hit.")
+elif Δ < 0.0:
+    print("Fell short.")
+else:
+    print("Went long.")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## [$V_0$: Works on my Machine](./V0.py)
 
