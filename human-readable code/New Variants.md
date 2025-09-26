@@ -102,27 +102,6 @@ off = pl - pt
 print("Landing distance to target:", off)
 ```
 
-## $V_?$: Create a new output variable: a 'hit or not' message
-
-```python
-s = float(input("Launch velocity?"))
-Θ = float(input("Launch angle?"))
-import math
-t = s * math.sin(Θ) / 4.9
-print("Flight time:", t)
-pl = s * t * math.cos(Θ)
-print("Landing position:", pl)
-pt = float(input("Target distance?"))
-off = pl - pt
-print("Landing distance to target:", off)
-if math.fabs(off / pt) < 2.0e-2:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
-```
-
 ## $V_?$: Introduce a whitespace policy: break code by output variables
 
 ```python
@@ -138,13 +117,6 @@ print("Landing position:", pl)
 pt = float(input("Target distance?"))
 off = pl - pt
 print("Landing distance to target:", off)
-
-if math.fabs(off / pt) < 2.0e-2:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: Impose sanity constraints on inputs
@@ -165,13 +137,6 @@ pt = float(input("Target distance?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt
 print("Landing distance to target:", off)
-
-if math.fabs(off / pt) < 2.0e-2:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: No constant folding (2 * ... / 9.8  <~~ ... / 4.9)
@@ -192,13 +157,6 @@ pt = float(input("Target distance?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt
 print("Landing distance to target:", off)
-
-if math.fabs(off / pt) < 2.0e-2:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: "Prominent" (for lack of better words) constants to variables
@@ -220,14 +178,6 @@ pt = float(input("Target distance?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt
 print("Landing distance to target:", off)
-
-e = 2.0e-2
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: Include unit information in input prompt messages
@@ -249,14 +199,6 @@ pt = float(input("Target distance (m)?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt
 print("Landing distance to target:", off)
-
-e = 2.0e-2
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: Units captured in comments for intermediate variables and in input/output messages else
@@ -278,14 +220,6 @@ pt = float(input("Target distance (m)?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt  # m
 print("Landing distance to target:", off)
-
-e = 2.0e-2 # distance to target as a percentage of initial target distance
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: New code flow policy: Output variables grouped together, last
@@ -302,17 +236,10 @@ pl = s * t * math.cos(Θ)  # m
 pt = float(input("Target distance (m)?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt  # m
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: New code flow policy: Imports first
@@ -330,17 +257,10 @@ pl = s * t * math.cos(Θ)  # m
 pt = float(input("Target distance (m)?"))
 assert pt > 0.0, "pt > 0.0"
 off = pl - pt  # m
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: New code flow policy: Constants declared immediately after imports
@@ -349,7 +269,6 @@ else:
 import math
 
 g = 9.8 # m/s^2
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 s = float(input("Launch velocity (m/s)?"))
 assert s > 0.0, "Velocity > 0.0"
@@ -364,12 +283,6 @@ off = pl - pt  # m
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 
@@ -379,7 +292,6 @@ else:
 import math
 
 g = 9.8 # m/s^2
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 s = float(input("Launch velocity (m/s)?"))
 Θ = float(input("Launch angle (rad)?"))
@@ -395,12 +307,6 @@ off = pl - pt  # m
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 
@@ -410,7 +316,6 @@ else:
 import math
 
 g = 9.8 # m/s^2
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 s = float(input("Launch velocity (m/s)?"))
 Θ = float(input("Launch angle (rad)?"))
@@ -427,12 +332,6 @@ off = pl - pt  # m
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: Comment-based headers for grouped code
@@ -443,7 +342,6 @@ import math
 
 # Constants
 g = 9.8 # m/s^2
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 # Inputs
 s = float(input("Launch velocity (m/s)?"))
@@ -464,12 +362,6 @@ off = pl - pt  # m
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: More prominent comment-based headers for grouped code, removing that for "imports"
@@ -482,7 +374,6 @@ import math
 #-------------------------------------------------------------------------------
 
 g = 9.8 # m/s^2
-e = 2.0e-2 # distance to target as a percentage of initial target distance
 
 #-------------------------------------------------------------------------------
 # INPUTS
@@ -515,12 +406,6 @@ off = pl - pt  # m
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: More comments about variables and calculations (developer-friendliness)
@@ -533,7 +418,6 @@ import math
 #-------------------------------------------------------------------------------
 
 g = 9.8  # Gravity constant, conventional assumption: 9.8 m/s^2.
-e = 2.0e-2  # A tolerance for hitting the target, 2% of the distance from the launcher to the target.
 
 #-------------------------------------------------------------------------------
 # INPUTS
@@ -568,12 +452,6 @@ off = pl - pt  # Distance between the landing position and the target position, 
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 
@@ -597,7 +475,6 @@ import math
 #-------------------------------------------------------------------------------
 
 g = 9.8  # Gravity constant, conventional assumption: 9.8 m/s^2.
-e = 2.0e-2  # A tolerance for hitting the target, 2% of the distance from the launcher to the target.
 
 #-------------------------------------------------------------------------------
 # INPUTS
@@ -632,12 +509,6 @@ off = pl - pt  # Distance between the landing position and the target position, 
 print("Flight time (s):", t)
 print("Landing position (m):", pl)
 print("Landing distance to target:", off)
-if math.fabs(off / pt) < e:
-    print("Hit.")
-elif off < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
 
 ## $V_?$: Clearer variable names
@@ -660,7 +531,6 @@ import math
 #-------------------------------------------------------------------------------
 
 g = 9.8  # Gravity constant, conventional assumption: 9.8 m/s^2.
-tolerance = 2.0e-2  # A tolerance for hitting the target, 2% of the distance from the launcher to the target.
 
 #-------------------------------------------------------------------------------
 # INPUTS
@@ -695,10 +565,4 @@ offset = landing_position - target_distance  # Distance between the landing posi
 print("Flight time (s):", flight_time)
 print("Landing position (m):", landing_position)
 print("Landing distance to target:", offset)
-if math.fabs(offset / landing_position) < tolerance:
-    print("Hit.")
-elif offset < 0.0:
-    print("Fell short.")
-else:
-    print("Went long.")
 ```
