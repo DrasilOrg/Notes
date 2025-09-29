@@ -5,7 +5,13 @@ Hard-coded inputs:
 
 ## 007: $\bot$
 
-A developer-hostile program. Prompts (without notification) for 2 inputs and uses them at usage site (i.e., no caching). Does not indicate which prompt is for which `float(input())`.
+```python
+d = 29.489795918367346
+```
+
+## Runabout
+
+A developer-hostile program.
 
 ```python
 import math
