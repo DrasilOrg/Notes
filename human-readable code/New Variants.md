@@ -37,9 +37,15 @@ import math
 d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-## Glider: Strict input value caching policy
+## Strike: `Θ`: Add a comment
 
-Slightly more readable code.
+```python
+import math
+Θ = math.pi / 4  # Launch angle
+d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
+```
+
+## Glider: Strict input value caching policy
 
 ```python
 s = 17.0  # Launch velocity
