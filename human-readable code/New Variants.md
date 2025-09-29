@@ -3,7 +3,7 @@ Hard-coded inputs:
 * Launch velocity: $17~m/s$
 * Angle: $\frac{\pi}{4}~rad$
 
-## $V_?$: $\bot$
+## 007: $\bot$
 
 A developer-hostile program. Prompts (without notification) for 2 inputs and uses them at usage site (i.e., no caching). Does not indicate which prompt is for which `float(input())`.
 
@@ -12,7 +12,7 @@ import math
 d = 17.0 ** 2 * math.sin(math.pi / 2) / 9.8
 ```
 
-## $V_?$: Removing simplification: $2\sin{(a)}\cos{(a)}=\sin{(2a)}$
+## Offense: Removing simplification: $2\sin{(a)}\cos{(a)}=\sin{(2a)}$
 
 To obtain the one previous, I removed flight time output and inlined its expression into landing positiont. What's left is this: landing position. One of the final expression simplifications permitted after inlining expressions was the above trigonometric formula. With the simplification removed, $\theta$ is used twice, but the configuration remains: no caching.
 
@@ -21,7 +21,7 @@ import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.9
 ```
 
-## $V_?$: Introduce simple inputs caching policy: don't inline repeated variable use
+## Octagon: Introduce simple inputs caching policy: don't inline repeated variable use
 
 The new caching policy is to only cache if the variable needs to be used more than once.
 
@@ -31,7 +31,7 @@ import math
 d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-## $V_?$: Strict input value caching policy
+## Glider: Strict input value caching policy
 
 Slightly more readable code.
 
@@ -44,7 +44,7 @@ d = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 
 **Note**: `sin` appears before $\theta$ and after `s` in the `print` statement, so we generate `s` input assignment first, and then import `math`. The order of steps is approximately left-to-right including only what is strictly necessary above any particular step to reach the final output variable calculation.
 
-## $V_?$: Rename `d` to `pl`
+## SuperBowl: Rename `d` to `pl`
 
 ```python
 s = 17.0  # Launch velocity
@@ -53,7 +53,7 @@ import math
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-## $V_?$: Add comment explaining what `d` is
+## Crossroads: Add comment explaining what `d` is
 
 ```python
 s = 17.0  # Launch velocity
@@ -62,7 +62,7 @@ import math
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
 ```
 
-## $V_?$: Introduce a new variable: flight time
+## Ricochet: Introduce a new variable: flight time
 
 I will assume that the policy of caching expressions applies to all input and output variables. Not necessarily intermediate variables, which is not directly highlighted through this snippet.
 
@@ -73,7 +73,7 @@ import math
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
 ```
 
-## $V_?$: Designate "flight time" to be an output variable
+## Commander: Designate "flight time" to be an output variable
 
 With flight time designated as an output variable (or alternatively because it will be used more once), it is cached in a variable before being output.
 
@@ -85,7 +85,7 @@ t = s * math.sin(Θ) / 4.9  # Flight time
 pl = s * t * math.cos(Θ)  # Landing position
 ```
 
-## $V_?$: Introduce a whitespace policy: break code by key variables of interest (i.e., "outputs")
+## Blockade: Introduce a whitespace policy: break code by key variables of interest (i.e., "outputs")
 
 ```python
 s = 17.0  # Launch velocity
@@ -96,7 +96,7 @@ t = s * math.sin(Θ) / 4.9  # Flight time
 pl = s * t * math.cos(Θ)  # Landing position
 ```
 
-## $V_?$: Introduce function for algorithm reuse
+## Invader: Introduce function for algorithm reuse
 
 ```python
 def calc(s, Θ):
@@ -114,7 +114,7 @@ import math
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Switch to [Google DocString Format](https://google.github.io/styleguide/pyguide.html) ([example](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)) for function comments.
+## Alert: Switch to [Google DocString Format](https://google.github.io/styleguide/pyguide.html) ([example](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)) for function comments.
 
 ```python
 def calc(s, Θ):
@@ -139,7 +139,7 @@ import math
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: De-duplicate imports
+## Focus: De-duplicate imports
 
 Unfortunately, Python's required 2 empty lines before/after function definitions become empty space spam in this document.
 
@@ -167,7 +167,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Don't break blocks by "output" variable calculations
+## Xenon: Don't break blocks by "output" variable calculations
 
 I say "output" but I really mean "key variables of interest."
 
@@ -193,7 +193,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Impose soft sanity constraints on inputs
+## Genesis: Impose soft sanity constraints on inputs
 
 Soft because `assert` is disableable by passing `-O` to Python. Note that the constraints are intermixed with the steps (only executed just before first use of a variable, same lazy policy).
 
@@ -222,7 +222,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: New code policy: input value assertions grouped together in function blocks
+## Backhander: New code policy: input value assertions grouped together in function blocks
 
 Soft because `assert` is disableable by passing `-O` to Python.
 
@@ -251,7 +251,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Friendlier assertion messages
+## Scrappy: Friendlier assertion messages
 
 Soft because `assert` is disableable by passing `-O` to Python.
 
@@ -280,7 +280,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Switch to hard sanity constraints (written in the negative)
+## Vicinity: Switch to hard sanity constraints (written in the negative)
 
 Note that single-line blocks use the compressed Python block style.
 
@@ -309,7 +309,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: No constant folding (`... / 4.9` ~~> `2 * ... / 9.8`)
+## Universe: No constant folding (`... / 4.9` ~~> `2 * ... / 9.8`)
 
 ```python
 import math
@@ -336,7 +336,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: "Prominent" (for lack of better words) constants to variables
+## Torch: "Prominent" (for lack of better words) constants to variables
 
 ```python
 import math
@@ -364,7 +364,7 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Move constants to optional function inputs
+## Edge: Move constants to optional function inputs
 
 ```python
 import math
@@ -392,7 +392,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Impose constraints on optional inputs
+## Mad Hatter: Impose constraints on optional inputs
 
 ```python
 import math
@@ -421,7 +421,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Add function description to docstring
+## Foray: Add function description to docstring
 
 Note Google DocString format dictates hard wrapping docstrings at character 72.
 
@@ -454,7 +454,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Clarify `pt`'s description
+## Boxer: Clarify `pt`'s description
 
 ```python
 import math
@@ -485,7 +485,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Include unit information in docstring's Args/Returns sections
+## Pinball: Include unit information in docstring's Args/Returns sections
 
 ```python
 import math
@@ -516,7 +516,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Include unit information in docstring's function description
+## Omega: Include unit information in docstring's function description
 
 ```python
 import math
@@ -548,7 +548,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Include type information in docstring
+## Sunset: Include type information in docstring
 
 ```python
 import math
@@ -580,7 +580,7 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Add type hints on function inputs
+## Steamroller: Add type hints on function inputs
 
 ```python
 import math
@@ -612,7 +612,7 @@ def calc(s: float, Θ: float, g: float = 9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Add type hints on function outputs
+## Volcano: Add type hints on function outputs
 
 ```python
 import math
@@ -644,7 +644,7 @@ def calc(s: float, Θ: float, float, g: float = 9.8) -> (float, float):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Move constants to global variables
+## Pinnacle: Move constants to global variables
 
 This maintains the previous variable description/comment scheme. Additionally, because it is now presumed to be an immutable "constant," we remove the assertion in `calc`.
 
@@ -678,7 +678,7 @@ def calc(s: float, Θ: float) -> (float, float):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Introduce simple program metainformation at top of file
+## Starlight: Introduce simple program metainformation at top of file
 
 This is a "uniquely Python" [style](https://epydoc.sourceforge.net/manual-fields.html#module-metadata-variables).
 
@@ -721,7 +721,7 @@ def calc(s: float, Θ: float) -> (float, float):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-## $V_?$: Comment-based headers for grouped code
+## Blockade: Comment-based headers for grouped code
 
 There is a chasm of variations between the variation just before the introduction of functions and this one. This variation does not go to a function-based grouping, but simple comment-based organization within file (impromptu abstraction?).
 
@@ -754,7 +754,7 @@ t = 2 * s * math.sin(Θ) / g  # Flight time, s (float)
 pl = s * t * math.cos(Θ)  # Landing position, m (float)
 ```
 
-## $V_?$: More prominent comment-based headers for grouped code
+## Paperclip: More prominent comment-based headers for grouped code
 
 ```python
 """PROJECTILE MOTION
@@ -799,7 +799,7 @@ t = 2 * s * math.sin(Θ) / g  # Flight time, s (float)
 pl = s * t * math.cos(Θ)  # Landing position, m (float)
 ```
 
-## $V_?$: More comments about variables and calculations (almost spamming)
+## Nexus: More comments about variables and calculations (almost spamming)
 
 ```python
 """PROJECTILE MOTION
@@ -844,7 +844,7 @@ t = 2 * s * math.sin(Θ) / g  # Flight time (total time projectile in flight), s
 pl = s * t * math.cos(Θ)  # Landing position (total distance projectile travelled from launcher), m (float)
 ```
 
-## $V_?$: Clearer variable names
+## Brimstone: Clearer variable names
 
 ```python
 """PROJECTILE MOTION
