@@ -1,7 +1,4 @@
-Hard-coded inputs:
-
-* Launch velocity: $17~m/s$
-* Angle: $\frac{\pi}{4}~rad$
+**Table of Contents**
 
 1. [007](#007)
 2. [Fun Machine](#fun-machine)
@@ -44,32 +41,62 @@ Hard-coded inputs:
 39. [Nexus](#nexus)
 40. [Brimstone](#brimstone)
 
+**Default known values**:
+
+* Launch velocity: $17~m/s$
+* Angle: $\frac{\pi}{4}~rad$
+* Acceleration due to gravity: $9.81~m/s^2$
+
+
+
+
+
+
+
 ### 007
 
 ```python
 d = 29.489795918367346
 ```
 
+Using the default known values, 007 is the floating-point-valued horizontal distance travelled/landing position. It is the residualized version of [Runabout](#runabout).
+
+
+
+
+
+
+
 ### Fun Machine
-
-Extension of [007](#007).
-
-Changed used acceleration due to gravity constant to $9.7803~m/s^2$ (gravity near equator)
 
 ```python
 d = 29.549195832438677
 ```
 
+Similar to 007, an extension of [Runabout](#runabout), except acceleration due to gravity constant assumes gravity near the equator (i.e., $g = 9.7803~m/s^2$) before being residualized.
+
+
+
+
+
+
+
 ### Runabout
 
 Extension of [007](#007).
 
-A developer-hostile program.
-
 ```python
 import math
-d = 17.0 ** 2 * math.sin(math.pi / 2) / 9.8
+d = 17.0 ** 2 * math.sin(2 * math.pi / 4) / 9.8
 ```
+
+Runabout is 007 without approximate/partial evaluation.
+
+
+
+
+
+
 
 ### Offense
 
@@ -83,6 +110,12 @@ To obtain the one previous, I removed flight time output and inlined its express
 import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.9
 ```
+
+
+
+
+
+
 
 ### Blade
 
@@ -99,6 +132,12 @@ import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.89015
 ```
 
+
+
+
+
+
+
 ### En Route
 
 Extension of [Offense](#offense).
@@ -112,7 +151,13 @@ import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 0.0812
 ```
 
-### Iceberg
+
+
+
+
+
+
+### Glider
 
 Extension of [Offense](#offense).
 
@@ -126,6 +171,12 @@ Extension of **Offense**.
 import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) * 12.3456
 ```
+
+
+
+
+
+
 
 ### Octagon
 
@@ -141,6 +192,12 @@ import math
 d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
+
+
+
+
+
+
 ### Strike
 
 Extension of [Octagon](#octagon).
@@ -153,11 +210,13 @@ import math
 d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-### Glider
 
-Extension of [Strike](#strike).
 
-> Strict input value caching policy
+
+
+
+
+### Iceberg
 
 ```python
 s = 17.0  # Launch velocity
@@ -166,11 +225,29 @@ import math
 d = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
+_The minimal starting example._
+
+Iceberg is one of the simplest versions of Projectile, placing known values in variables (**strict policy for all variables**). It calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
+
+
+
+
+<!-- Extension of [Strike](#strike).
+
+> Strict input value caching policy -->
+
+
 **Note**: `sin` appears before $\theta$ and after `s` in the `print` statement, so we generate `s` input assignment first, and then import `math`. The order of steps is approximately left-to-right including only what is strictly necessary above any particular step to reach the final output variable calculation.
+
+
+
+
+
+
 
 ### Super Bowl
 
-Extension of [Glider](#glider).
+Extension of [Iceberg](#iceberg).
 
 > Rename `d` to `pl`
 
@@ -180,6 +257,12 @@ import math
 Θ = math.pi / 4  # Launch angle
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
+
+
+
+
+
+
 
 ### Crossroads
 
@@ -193,6 +276,12 @@ import math
 Θ = math.pi / 4  # Launch angle
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
 ```
+
+
+
+
+
+
 
 ### Ricochet
 
@@ -208,6 +297,12 @@ import math
 Θ = math.pi / 4  # Launch angle
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
 ```
+
+
+
+
+
+
 
 ### Commander
 
@@ -225,6 +320,12 @@ t = s * math.sin(Θ) / 4.9  # Flight time
 pl = s * t * math.cos(Θ)  # Landing position
 ```
 
+
+
+
+
+
+
 ### Blockade
 
 Extension of [Commander](#commander).
@@ -239,6 +340,12 @@ import math
 t = s * math.sin(Θ) / 4.9  # Flight time
 pl = s * t * math.cos(Θ)  # Landing position
 ```
+
+
+
+
+
+
 
 ### Invader
 
@@ -262,6 +369,12 @@ def calc(s, Θ):
 import math
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Alert
 
@@ -291,6 +404,12 @@ def calc(s, Θ):
 import math
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Focus
 
@@ -324,6 +443,12 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Xenon
 
 Extension of [Focus](#focus).
@@ -353,6 +478,12 @@ def calc(s, Θ):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Genesis
 
@@ -387,6 +518,12 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Backhander
 
 Extension of [Genesis](#genesis).
@@ -419,6 +556,12 @@ def calc(s, Θ):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Scrappy
 
@@ -453,6 +596,12 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Vicinity
 
 Extension of [Scrappy](#scrappy).
@@ -486,6 +635,12 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Universe
 
 Extension of [Vicinity](#vicinity).
@@ -516,6 +671,12 @@ def calc(s, Θ):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Torch
 
@@ -549,6 +710,12 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Edge
 
 Extension of [Torch](#torch).
@@ -580,6 +747,12 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Mad Hatter
 
@@ -613,6 +786,12 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Foray
 
@@ -651,6 +830,12 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Boxer
 
 Extension of [Foray](#foray).
@@ -686,6 +871,12 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Pinball
 
 Extension of [Boxer](#boxer).
@@ -720,6 +911,12 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Omega
 
@@ -757,6 +954,12 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Sunset
 
 Extension of [Omega](#omega).
@@ -792,6 +995,12 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Steamroller
 
@@ -829,6 +1038,12 @@ def calc(s: float, Θ: float, g: float = 9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Volcano
 
 Extension of [Steamroller](#steamroller).
@@ -864,6 +1079,12 @@ def calc(s: float, Θ: float, float, g: float = 9.8) -> (float, float):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Pinnacle
 
@@ -902,6 +1123,12 @@ def calc(s: float, Θ: float) -> (float, float):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
+
+
+
+
+
+
 
 ### Starlight
 
@@ -950,6 +1177,12 @@ def calc(s: float, Θ: float) -> (float, float):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
+
+
+
+
+
+
 ### Coffee
 
 Extension of [Starlight](#starlight).
@@ -986,6 +1219,12 @@ if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be with
 t = 2 * s * math.sin(Θ) / g  # Flight time, s (float)
 pl = s * t * math.cos(Θ)  # Landing position, m (float)
 ```
+
+
+
+
+
+
 
 ### Paperclip
 
@@ -1036,6 +1275,12 @@ t = 2 * s * math.sin(Θ) / g  # Flight time, s (float)
 pl = s * t * math.cos(Θ)  # Landing position, m (float)
 ```
 
+
+
+
+
+
+
 ### Nexus
 
 Extension of [Paperclip](#paperclip).
@@ -1084,6 +1329,12 @@ if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be with
 t = 2 * s * math.sin(Θ) / g  # Flight time (total time projectile in flight), s (float)
 pl = s * t * math.cos(Θ)  # Landing position (total distance projectile travelled from launcher), m (float)
 ```
+
+
+
+
+
+
 
 ### Brimstone
 
