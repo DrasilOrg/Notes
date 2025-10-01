@@ -63,45 +63,52 @@ flowchart LR
 ### Amethyst
 
 ```python
-import math
+from math import sin, cos
 
 g = 9.8  # Acceleration due to gravity to 2 decimal places
-pi = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = pi / 4  # Launch angle
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Amethyst is the “base” version of Projectile that has the following:
 
-1. **Code Choices**:
-   1. Uses **Python**.
-   2. Permits **Unicode** characters for variable names where appropriate (e.g., `Θ` for launch angle). Up to discretion of programming language support as well.
-   3. Uses **4 spaces** for indentation.
-   4. Uses **soft line length limit of 80 characters** (up to **85** characters before hard line breaks).
-   5. Performs all **imports** at the **top of the file**.
-   6. **Requires comments** for all **variable definitions**.
-   7. **Requires comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
-   8. Places all statement comments on the same line.
-2. **Python-specific Choices**
-   1. Requires **snake_case** for variable names.
-   2. Places **2 blank lines** before and after function definitions.
-3. **"ICO Requirements → Code" Choices**:
-   1. Exports all known values (e.g., `g`, `pi`, `Θ`, `s`).
-   2. Exports all unknown variables (e.g., `d`).
-   3. Places all known values in variables at the top of the file, sorted alphabetically by descriptions, followed by all unknown variables, also sorted alphabetically by descriptions, up to dependencies.
-4. **Software Requirements → ICO Requirements" Choices**:
-   1. Tags specification-level theoretical constants (e.g., $g$, $\pi$) as **generic** program-level constants.
-   2. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
-   3. Tags specification-level output variables as program-level **exports**.
-5. **Specification Choices**:
-   1. Calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
-   2. Assumes **theoretical constant approximations:** 
+1. **Specification Choices**:
+    1. Calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
+    2. Assumes **theoretical constant approximations:**
         1. Acceleration due to gravity constant is $9.8~m/s^2$ (gravity near Earth's surface), i.e., average approximation of $g$ to 2 decimal places.
         2. $\pi$ is approximated to 10 decimal places.
-   3. Assumes **problem-specific constants**:
-        1. Launch velocity: $17~m/s$.
-        2. Angle: $\frac{\pi}{4}~rad$.
+    3. Assumes **problem-specific constants**:
+        1. Launch velocity: $s = 17~m/s$.
+        2. Angle: $\theta = \frac{\pi}{4}~rad$.
+    4. Uss formula: $d = \frac{2s^2 \sin{\theta} \cos{\theta}}{g}$.
+2. **Software Requirements → ICO Program Requirements" Choices**:
+    1. Tags specification-level theoretical constants (e.g., $g$, $\pi$) as **generic** program-level constants.
+    2. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
+    3. Tags specification-level output variables as program-level **exports**.
+3. **"ICO Program Requirements → Code" Choices**:
+    1. Single-file layout, immediate mode (no, or minimal, functions), with single global scope.
+        1. Export all variables (known, intermediate, unknown, e.g., `g`, `π`, `Θ`, `s`).
+    4. Places all known values in variables at the top of the file, sorted alphabetically by descriptions, followed by all unknown variables, also sorted alphabetically by descriptions, up to dependencies.
+4. **"Code → Artifacts" Choices**:
+    1. Uses **Python** with Python-specific choices:
+        1. Requires **snake_case** for variable names. Automated renaming policy:
+            1. All lowercase.
+            2. Spaces replaced with underscores.
+            3. Non-alphanumeric characters (except underscores) removed.
+            4. Duplicate symbols made unique by appending `_1`, `_2`, etc.
+        2. Places **2 blank lines** before and after function definitions.
+    2. Permits **Unicode** characters for variable names where appropriate (e.g., `Θ` for launch angle). Up to discretion of programming language support as well.
+    3. Uses **4 spaces** for indentation.
+    4. Uses **soft line length limit of 80 characters** (up to **85** characters before hard line breaks).
+    5. Performs all **imports** at the **top of the file**.
+    6. **Requires comments** for all **variable definitions**.
+    7. **Requires comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
+    8. Places all statement comments on the same line.
+    9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using language-specific features when possible (i.e., pulling imports in to local namespace where possible).
+
+
 
 
 
