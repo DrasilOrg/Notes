@@ -2,7 +2,11 @@
 
 1. [Graph View of Variants](#graph-view-of-variants)
 2. [Variants](#variants)
-   1. [Amethyst](#amethyst)
+   1. [_Amethyst_](#amethyst)
+   2. [Imports-related Variants](#imports-related-variants)
+      1. [_Pentagon_](#pentagon)
+      2. [_Jasper_](#jasper)
+      3. [_Dunkaroo_](#dunkaroo)
 3. [Old Variants](#old-variants)
    1. [007](#007)
    2. [Fun Machine](#fun-machine)
@@ -49,9 +53,9 @@
 
 ```mermaid
 flowchart TD
-    amethyst{{Amethyst}} -- {~ qualified imports} --> pentagon{{Pentagon}}
-    pentagon -- {~ qualified imports (with alias)} --> jasper{{Jasper}}
-    %%-- ? --> ?
+    amethyst{{Amethyst}} -- { qualified imports } --> pentagon{{Pentagon}}
+    pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
+    amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
 ```
 
 **Legend**:
@@ -61,7 +65,7 @@ flowchart TD
 
 ## Variants
 
-### Amethyst
+### _Amethyst_
 
 ```python
 from math import sin, cos
@@ -109,7 +113,9 @@ Amethyst is the “base” version of Projectile that has the following:
     8. Places all statement comments on the same line.
     9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
 
-### Pentagon
+### Imports-related Variants
+
+#### _Pentagon_
 
 ```python
 import math
@@ -123,7 +129,7 @@ d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelle
 
 Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
 
-### Jasper
+#### _Jasper_
 
 ```python
 import math as m
@@ -137,7 +143,27 @@ d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by t
 
 Jasper is an extension of [Pentagon](#pentagon) that qualifies imports with an alias.
 
+#### _Dunkaroo_
 
+```python
+import math # sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
+
+
+
+
+
+<!------------------------------------------------------------------------------
+-- OLD VARIANTS
+------------------------------------------------------------------------------->
 
 ## Old Variants
 
