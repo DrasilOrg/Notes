@@ -48,8 +48,8 @@
 ## Graph View of Variants
 
 ```mermaid
-flowchart LR
-    amethyst{{Amethyst}}
+flowchart TD
+    amethyst{{Amethyst}} -- {~ qualified imports} --> pentagon{{Pentagon}}
     %%-- ? --> ?
 ```
 
@@ -106,9 +106,21 @@ Amethyst is the “base” version of Projectile that has the following:
     6. **Requires comments** for all **variable definitions**.
     7. **Requires comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
     8. Places all statement comments on the same line.
-    9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using language-specific features when possible (i.e., pulling imports in to local namespace where possible).
+    9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
 
+### Pentagon
 
+```python
+import math
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
 
 
 
