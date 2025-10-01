@@ -1,51 +1,118 @@
 **Table of Contents**
 
-1. [007](#007)
-2. [Fun Machine](#fun-machine)
-3. [Runabout](#runabout)
-4. [Offense](#offense)
-5. [Blade](#blade)
-6. [En Route](#en-route)
-7. [Iceberg](#iceberg)
-8. [Octagon](#octagon)
-9. [Strike](#strike)
-10. [Glider](#glider)
-11. [Super Bowl](#super-bowl)
-12. [Crossroads](#crossroads)
-13. [Ricochet](#ricochet)
-14. [Commander](#commander)
-15. [Blockade](#blockade)
-16. [Invader](#invader)
-17. [Alert](#alert)
-18. [Focus](#focus)
-19. [Xenon](#xenon)
-20. [Genesis](#genesis)
-21. [Backhander](#backhander)
-22. [Scrappy](#scrappy)
-23. [Vicinity](#vicinity)
-24. [Universe](#universe)
-25. [Torch](#torch)
-26. [Edge](#edge)
-27. [Mad Hatter](#mad-hatter)
-28. [Foray](#foray)
-29. [Boxer](#boxer)
-30. [Pinball](#pinball)
-31. [Omega](#omega)
-32. [Sunset](#sunset)
-33. [Steamroller](#steamroller)
-34. [Volcano](#volcano)
-35. [Pinnacle](#pinnacle)
-36. [Starlight](#starlight)
-37. [Coffee](#coffee)
-38. [Paperclip](#paperclip)
-39. [Nexus](#nexus)
-40. [Brimstone](#brimstone)
+1. [Graph View of Variants](#graph-view-of-variants)
+2. [Variants](#variants)
+   1. [Amethyst](#amethyst)
+3. [Old Variants](#old-variants)
+   1. [007](#007)
+   2. [Fun Machine](#fun-machine)
+   3. [Runabout](#runabout)
+   4. [Offense](#offense)
+   5. [Blade](#blade)
+   6. [En Route](#en-route)
+   7. [Glider](#glider)
+   8. [Octagon](#octagon)
+   9. [Strike](#strike)
+   10. [Iceberg](#iceberg)
+   11. [Super Bowl](#super-bowl)
+   12. [Crossroads](#crossroads)
+   13. [Ricochet](#ricochet)
+   14. [Commander](#commander)
+   15. [Blockade](#blockade)
+   16. [Invader](#invader)
+   17. [Alert](#alert)
+   18. [Focus](#focus)
+   19. [Xenon](#xenon)
+   20. [Genesis](#genesis)
+   21. [Backhander](#backhander)
+   22. [Scrappy](#scrappy)
+   23. [Vicinity](#vicinity)
+   24. [Universe](#universe)
+   25. [Torch](#torch)
+   26. [Edge](#edge)
+   27. [Mad Hatter](#mad-hatter)
+   28. [Foray](#foray)
+   29. [Boxer](#boxer)
+   30. [Pinball](#pinball)
+   31. [Omega](#omega)
+   32. [Sunset](#sunset)
+   33. [Steamroller](#steamroller)
+   34. [Volcano](#volcano)
+   35. [Pinnacle](#pinnacle)
+   36. [Starlight](#starlight)
+   37. [Coffee](#coffee)
+   38. [Paperclip](#paperclip)
+   39. [Nexus](#nexus)
+   40. [Brimstone](#brimstone)
 
-**Default known values**:
+## Graph View of Variants
 
-* Launch velocity: $17~m/s$
-* Angle: $\frac{\pi}{4}~rad$
-* Acceleration due to gravity: $9.81~m/s^2$
+```mermaid
+flowchart LR
+    amethyst{{Amethyst}}
+    %%-- ? --> ?
+```
+
+**Legend**:
+
+* Nodes are variants.
+* Edges are transformations from one variant to another.
+
+## Variants
+
+### Amethyst
+
+```python
+import math
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+pi = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = pi / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+```
+
+Amethyst is the “base” version of Projectile that has the following:
+
+1. **Code Choices**:
+   1. Uses **Python**.
+   2. Permits **Unicode** characters for variable names where appropriate (e.g., `Θ` for launch angle). Up to discretion of programming language support as well.
+   3. Uses **4 spaces** for indentation.
+   4. Uses **soft line length limit of 80 characters** (up to **85** characters before hard line breaks).
+   5. Performs all **imports** at the **top of the file**.
+   6. **Requires comments** for all **variable definitions**.
+   7. **Requires comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
+   8. Places all statement comments on the same line.
+2. **Python-specific Choices**
+   1. Requires **snake_case** for variable names.
+   2. Places **2 blank lines** before and after function definitions.
+3. **"ICO Requirements → Code" Choices**:
+   1. Exports all known values (e.g., `g`, `pi`, `Θ`, `s`).
+   2. Exports all unknown variables (e.g., `d`).
+   3. Places all known values in variables at the top of the file, sorted alphabetically by descriptions, followed by all unknown variables, also sorted alphabetically by descriptions, up to dependencies.
+4. **Software Requirements → ICO Requirements" Choices**:
+   1. Tags specification-level theoretical constants (e.g., $g$, $\pi$) as **generic** program-level constants.
+   2. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
+   3. Tags specification-level output variables as program-level **exports**.
+5. **Specification Choices**:
+   1. Calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
+   2. Assumes **theoretical constant approximations:** 
+        1. Acceleration due to gravity constant is $9.8~m/s^2$ (gravity near Earth's surface), i.e., average approximation of $g$ to 2 decimal places.
+        2. $\pi$ is approximated to 10 decimal places.
+   3. Assumes **problem-specific constants**:
+        1. Launch velocity: $17~m/s$.
+        2. Angle: $\frac{\pi}{4}~rad$.
+
+
+
+## Old Variants
+
+
+
+
+
+
+
 
 
 
@@ -224,8 +291,6 @@ import math
 Θ = math.pi / 4  # Launch angle
 d = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
-
-_The minimal starting example._
 
 Iceberg is one of the simplest versions of Projectile, placing known values in variables (**strict policy for all variables**). It calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
 
