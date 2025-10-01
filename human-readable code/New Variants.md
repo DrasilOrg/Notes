@@ -50,6 +50,7 @@
 ```mermaid
 flowchart TD
     amethyst{{Amethyst}} -- {~ qualified imports} --> pentagon{{Pentagon}}
+    pentagon -- {~ qualified imports (with alias)} --> jasper{{Jasper}}
     %%-- ? --> ?
 ```
 
@@ -121,6 +122,20 @@ d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelle
 ```
 
 Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
+
+### Jasper
+
+```python
+import math as m
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Jasper is an extension of [Pentagon](#pentagon) that qualifies imports with an alias.
 
 
 
