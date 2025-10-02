@@ -77,6 +77,8 @@ flowchart LR
     amethyst -- { all input variables are outputs too } --> iridium{{Iridium}}
     iridium -- { inline all constants } --> onyx{{Onyx}}
     onyx -- { all input variables are outputs too } --> ferrous{{Ferrous}}
+    onyx -- { inline all constants } --> alex{{Alex}}
+    synergy -- { all input variables are outputs too } --> alex
     light -- { all input variables are outputs too } --> ferrous
     onyx -- { rename input variables to __var__ } --> rotom{{Rotom}}
     yagami -- { all variables except outputs are not exported } --> rotom
@@ -89,7 +91,7 @@ flowchart LR
 
 ## Variants
 
-### _Amethyst_
+### *Amethyst*
 
 ```python
 from math import sin, cos
@@ -141,7 +143,7 @@ Amethyst is the “base” version of Projectile that has the following:
 
 ### Imports-related Variants
 
-#### _Pentagon_
+#### *Pentagon*
 
 ```python
 import math
@@ -155,7 +157,7 @@ d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelle
 
 Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
 
-#### _Jasper_
+#### *Jasper*
 
 ```python
 import math as m
@@ -169,7 +171,7 @@ d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by t
 
 Jasper is an extension of [Pentagon](#pentagon) that qualifies imports with an alias.
 
-#### _Dunkaroo_
+#### *Dunkaroo*
 
 ```python
 import math # sin, cos
@@ -186,7 +188,7 @@ Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments
 ### Last-mile "Code → Artifacts" Variants
 
 
-#### _Proxima_
+#### *Proxima*
 
 ```python
 from math import sin, cos
@@ -202,7 +204,7 @@ Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode cha
 
 ### "ICO Program Requirements → Code" Variants
 
-#### _Pistachio_
+#### *Pistachio*
 
 ```python
 from math import sin, cos
@@ -213,7 +215,7 @@ d = 2 * 17.0 ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by 
 
 Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value whose symbol is only used once.
 
-#### _Synergy_
+#### *Synergy*
 
 ```python
 d = 29.489795918367346  # Horizontal distance travelled by the projectile
@@ -221,7 +223,7 @@ d = 29.489795918367346  # Horizontal distance travelled by the projectile
 
 Synergy is an extension of [Pistachio](#pistachio) that performs partial evaluation.
 
-#### _Yagami_
+#### *Yagami*
 
 ```python
 from math import sin, cos
@@ -233,7 +235,7 @@ d = 2 * s ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the
 
 Yagami is an extension of [Amethyst](#amethyst) that inlines all theoretical constant values.
 
-#### _Light_
+#### *Light*
 
 ```python
 from math import sin, cos
@@ -243,9 +245,9 @@ d = 2 * 17.0 ** 2 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horiz
 
 Light is an extension of [Yagami](#yagami) that inlines all constants, both theoretical and problem-specific.
 
-Light may also be viewwed as an extension of [Omega](#omega) that inlines all constants used exactly once.
+Light may also be viewed as an extension of [Omega](#omega) that inlines all constants used exactly once.
 
-#### _Omega_
+#### *Omega*
 
 ```python
 from math import sin, cos
@@ -259,7 +261,7 @@ d = s ** 2 * sin(2 * Θ) / g  # Horizontal distance travelled by the projectile
 
 Omega is an extension of [Amethyst](#amethyst) that uses the trigonometric identity $2\sin{(a)}\cos{(a)}=\sin{(2a)}$ to simplify the expression for horizontal distance travelled. More generally, it performs any algebraic simplifications that do not change the semantics of the program. The only simplification performed in this snippet is the trigonometric one.
 
-#### _Iridium_
+#### *Iridium*
 
 ```python
 from math import sin, cos
@@ -271,9 +273,9 @@ s = 17.0  # Launch velocity
 d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
-Iridium is an extension of [Amethyst](#amethyst) that demands all specification-level input variables (knowns) be present in the code, even if they are not strictly necessary to calculate the outputs. i.e., marks the input variables as program outputs as well.
+Iridium is an extension of [Amethyst](#amethyst) that marks all specification-level input variables as program outputs as well (i.e., inputs are re-iterated in outputs).
 
-#### _Onyx_
+#### *Onyx*
 
 ```python
 from math import sin, cos
@@ -285,7 +287,21 @@ d = 2 * s ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the
 
 Onyx is a variant of [Iridium](#iridium) that inlines all constants, both theoretical and problem-specific, that are not explicitly marked as program inputs.
 
-#### _Ferrous_
+#### *Alex*
+
+```python
+from math import sin, cos
+
+Θ = 0.785398163375  # Launch angle
+s = 17.0  # Launch velocity
+d = 29.489795918367346  # Horizontal distance travelled by the projectile
+```
+
+Alex is a residualized variant of [Onyx](#onyx).
+
+Alex may also be viewed as a variant of [Synergy](#synergy) that exports all input variables as well.
+
+#### *Ferrous*
 
 ```python
 from math import sin, cos
@@ -300,7 +316,7 @@ Ferrous is an extension of [Light](#light) that marks all specification-level in
 Ferrous may also be viewed as an extension of [Onyx](#onyx) that inlines all symbols used exactly once.
 
 
-#### _Rotom_
+#### *Rotom*
 
 ```python
 from math import sin, cos
