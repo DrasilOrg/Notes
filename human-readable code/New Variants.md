@@ -2,22 +2,24 @@
 
 1. [Graph View of Variants](#graph-view-of-variants)
 2. [Variants](#variants)
-   1. [_Amethyst_](#amethyst)
+   1. [*Amethyst*](#amethyst)
    2. [Imports-related Variants](#imports-related-variants)
-      1. [_Pentagon_](#pentagon)
-      2. [_Jasper_](#jasper)
-      3. [_Dunkaroo_](#dunkaroo)
+      1. [*Pentagon*](#pentagon)
+      2. [*Jasper*](#jasper)
+      3. [*Dunkaroo*](#dunkaroo)
    3. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
-      1. [_Proxima_](#proxima)
+      1. [*Proxima*](#proxima)
    4. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
-      1. [_Pistachio_](#pistachio)
-      2. [_Synergy_](#synergy)
-      3. [_Yagami_](#yagami)
-      4. [_Light_](#light)
-      5. [_Omega_](#omega)
-      6. [_Iridium_](#iridium)
-      7. [_Onyx_](#onyx)
-      8. [Ferrous](#ferrous)
+      1. [*Pistachio*](#pistachio)
+      2. [*Synergy*](#synergy)
+      3. [*Yagami*](#yagami)
+      4. [*Light*](#light)
+      5. [*Omega*](#omega)
+      6. [*Iridium*](#iridium)
+      7. [*Onyx*](#onyx)
+      8. [*Alex*](#alex)
+      9. [*Ferrous*](#ferrous)
+      10. [*Rotom*](#rotom)
 3. [Old Variants](#old-variants)
    1. [Blade](#blade)
    2. [En Route](#en-route)
@@ -82,6 +84,8 @@ flowchart LR
     light -- { all input variables are outputs too } --> ferrous
     onyx -- { rename input variables to __var__ } --> rotom{{Rotom}}
     yagami -- { all variables except outputs are not exported } --> rotom
+
+    amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
 ```
 
 **Legend**:
@@ -330,27 +334,25 @@ Rotom is an extension of [Onyx](#onyx) replaces all input variable names with do
 
 Rotom may also be viewed as an extension of [Yagami](#yagami) that does not export any variable other than output variables by default. Note that this is only possible when the ICO problem is meant to be the "whole program" and not the structure of a function within a larger program.
 
+### Specification Choices
+
+#### *Havana*
+
+```python
+from math import sin, cos
+
+g = 9.7803  # Acceleration due to gravity near equator to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
 
 <!------------------------------------------------------------------------------
 -- OLD VARIANTS
 ------------------------------------------------------------------------------->
 
 ## Old Variants
-
-### Blade
-
-Extension of [Offense](#Offense).
-
-Assume acceleration due to gravity constant is $9.7803~m/s^2$ (gravity near equator)
-
-Source: https://en.wikipedia.org/wiki/Gravity_of_Earth
-
-Extension of **Offense**.
-
-```python
-import math
-d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.89015
-```
 
 ### En Route
 
