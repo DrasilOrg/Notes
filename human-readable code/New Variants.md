@@ -54,11 +54,12 @@
 ## Graph View of Variants
 
 ```mermaid
-flowchart TD
+flowchart LR
     amethyst{{Amethyst}} -- { qualified imports } --> pentagon{{Pentagon}}
     pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
     amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
     amethyst -- { no unicode chars } --> proxima{{Proxima}}
+    amethyst -- { inline known values used exactly 1x } --> pistachio{{Pistachio}}
 ```
 
 **Legend**:
@@ -177,6 +178,18 @@ d = 2 * s ** 2 * sin(theta) * cos(theta) / g  # Horizontal distance travelled by
 
 Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode characters, using a dictionary of unicode characters to their ASCII equivalents. When no equivalent exists, the unicode character is replaced with a (manually created) descriptive name in snake_case. When name collisions occur, the same `_1`, `_2`, etc. suffix policy is used to avoid collisions.
 
+### "ICO Program Requirements → Code" Variants
+
+#### Pistachio
+
+```python
+from math import sin, cos
+
+Θ = 3.1415926535 / 4  # Launch angle
+d = 2 * 17.0 ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+```
+
+Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value whose symbol is only used once.
 
 
 
