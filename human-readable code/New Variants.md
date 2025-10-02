@@ -9,6 +9,9 @@
       3. [*Dunkaroo*](#dunkaroo)
    3. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
       1. [*Proxima*](#proxima)
+      2. [*Deceiver*](#deceiver)
+      3. [*Spa*](#spa)
+      4. [*Whisky*](#whisky)
    4. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
@@ -20,43 +23,46 @@
       8. [*Alex*](#alex)
       9. [*Ferrous*](#ferrous)
       10. [*Rotom*](#rotom)
+   5. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
+      1. [*Oscar*](#oscar)
+   6. [Specification Choices](#specification-choices)
+      1. [*Havana*](#havana)
 3. [Old Variants](#old-variants)
-   1. [Blade](#blade)
-   2. [En Route](#en-route)
-   3. [Glider](#glider)
-   4. [Octagon](#octagon)
-   5. [Strike](#strike)
-   6. [Iceberg](#iceberg)
-   7. [Super Bowl](#super-bowl)
-   8. [Crossroads](#crossroads)
-   9. [Ricochet](#ricochet)
-   10. [Commander](#commander)
-   11. [Blockade](#blockade)
-   12. [Invader](#invader)
-   13. [Alert](#alert)
-   14. [Focus](#focus)
-   15. [Xenon](#xenon)
-   16. [Genesis](#genesis)
-   17. [Backhander](#backhander)
-   18. [Scrappy](#scrappy)
-   19. [Vicinity](#vicinity)
-   20. [Universe](#universe)
-   21. [Torch](#torch)
-   22. [Edge](#edge)
-   23. [Mad Hatter](#mad-hatter)
-   24. [Foray](#foray)
-   25. [Boxer](#boxer)
-   26. [Pinball](#pinball)
-   27. [Omega](#omega-1)
-   28. [Sunset](#sunset)
-   29. [Steamroller](#steamroller)
-   30. [Volcano](#volcano)
-   31. [Pinnacle](#pinnacle)
-   32. [Starlight](#starlight)
-   33. [Coffee](#coffee)
-   34. [Paperclip](#paperclip)
-   35. [Nexus](#nexus)
-   36. [Brimstone](#brimstone)
+   1. [En Route](#en-route)
+   2. [Glider](#glider)
+   3. [Octagon](#octagon)
+   4. [Strike](#strike)
+   5. [Iceberg](#iceberg)
+   6. [Super Bowl](#super-bowl)
+   7. [Crossroads](#crossroads)
+   8. [Ricochet](#ricochet)
+   9. [Commander](#commander)
+   10. [Blockade](#blockade)
+   11. [Invader](#invader)
+   12. [Alert](#alert)
+   13. [Focus](#focus)
+   14. [Xenon](#xenon)
+   15. [Genesis](#genesis)
+   16. [Backhander](#backhander)
+   17. [Scrappy](#scrappy)
+   18. [Vicinity](#vicinity)
+   19. [Universe](#universe)
+   20. [Torch](#torch)
+   21. [Edge](#edge)
+   22. [Mad Hatter](#mad-hatter)
+   23. [Foray](#foray)
+   24. [Boxer](#boxer)
+   25. [Pinball](#pinball)
+   26. [Omega](#omega-1)
+   27. [Sunset](#sunset)
+   28. [Steamroller](#steamroller)
+   29. [Volcano](#volcano)
+   30. [Pinnacle](#pinnacle)
+   31. [Starlight](#starlight)
+   32. [Coffee](#coffee)
+   33. [Paperclip](#paperclip)
+   34. [Nexus](#nexus)
+   35. [Brimstone](#brimstone)
 
 ## Graph View of Variants
 
@@ -69,6 +75,10 @@ flowchart LR
     amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
 
     amethyst -- { no unicode chars } --> proxima{{Proxima}}
+    amethyst -- { explicit type annotations } --> deceiver{{Deceiver}}
+    amethyst -- { render whole numbered floats as ints } --> spa{{Spa}}
+    amethyst -- { remove all comments at the code level } --> whisky{{Whisky}}
+    amethyst -- { remove all comments at the specification level } --> whisky
 
     amethyst -- { inline known values used exactly 1x } --> pistachio{{Pistachio}}
     pistachio -- { partial evaluation } --> synergy{{Synergy}}
@@ -84,6 +94,8 @@ flowchart LR
     light -- { all input variables are outputs too } --> ferrous
     onyx -- { rename input variables to __var__ } --> rotom{{Rotom}}
     yagami -- { all variables except outputs are not exported } --> rotom
+
+    amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
 ```
@@ -104,7 +116,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Amethyst is the “base” version of Projectile that has the following:
@@ -156,7 +168,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
@@ -170,7 +182,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Jasper is an extension of [Pentagon](#pentagon) that qualifies imports with an alias.
@@ -184,13 +196,12 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
 
 ### Last-mile "Code → Artifacts" Variants
-
 
 #### *Proxima*
 
@@ -201,10 +212,60 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 pi = 3.1415926535  # Approximation of π to 10 decimal places
 theta = pi / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * sin(theta) * cos(theta) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * sin(theta) * cos(theta) / g  # Horizontal distance travelled by the projectile
 ```
 
 Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode characters, using a dictionary of unicode characters to their ASCII equivalents. When no equivalent exists, the unicode character is replaced with a (manually created) descriptive name in snake_case. When name collisions occur, the same `_1`, `_2`, etc. suffix policy is used to avoid collisions.
+
+#### *Deceiver*
+
+```python
+from math import sin, cos
+
+g: float = 9.8  # Acceleration due to gravity to 2 decimal places
+π: float = 3.1415926535  # Approximation of π to 10 decimal places
+Θ: float = π / 4  # Launch angle
+s: float = 17.0  # Launch velocity
+d: float = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Deceiver is an extension of [Amethyst](#amethyst) that adds type annotations to all variable definitions. Note that with Python, the majority of these are not as useful as in other languages and may be discarded. For example, if `s`' value were `17` instead of `17.0`, then the type annotation would not align with the type inferred by Python (an `int`):
+
+```python
+>>> a: float = 1
+>>> type(a)
+<class 'int'>
+```
+
+#### *Spa*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17  # Launch velocity
+d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Spa is a variant of [Amethyst](#amethyst) that replaces whole numbered floats with integers. Note that this option is heavily tied to the language! This would not be allowed for Swift, which has a stricter type system.
+
+#### *Whisky*
+
+```python
+from math import sin, cos
+
+g = 9.8
+π = 3.1415926535
+Θ = π / 4
+s = 17.0
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
+```
+
+Whisky is an extension of [Amethyst](#amethyst) that removes any/all comments.
+
+Whisky may also be viewed as an extension of [Amethyst](#amethyst) that strips all comments at the level of the ICO program requirements generation from the specification.
 
 ### "ICO Program Requirements → Code" Variants
 
@@ -214,7 +275,7 @@ Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode cha
 from math import sin, cos
 
 Θ = 3.1415926535 / 4  # Launch angle
-d = 2 * 17.0 ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+d = 2.0 * 17.0 ** 2.0 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
 ```
 
 Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value whose symbol is only used once.
@@ -234,7 +295,7 @@ from math import sin, cos
 
 Θ = 3.1415926535 / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
 ```
 
 Yagami is an extension of [Amethyst](#amethyst) that inlines all theoretical constant values.
@@ -244,7 +305,7 @@ Yagami is an extension of [Amethyst](#amethyst) that inlines all theoretical con
 ```python
 from math import sin, cos
 
-d = 2 * 17.0 ** 2 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horizontal distance travelled by the projectile
+d = 2.0 * 17.0 ** 2.0 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horizontal distance travelled by the projectile
 ```
 
 Light is an extension of [Yagami](#yagami) that inlines all constants, both theoretical and problem-specific.
@@ -260,7 +321,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = s ** 2 * sin(2 * Θ) / g  # Horizontal distance travelled by the projectile
+d = s ** 2.0 * sin(2.0 * Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Omega is an extension of [Amethyst](#amethyst) that uses the trigonometric identity $2\sin{(a)}\cos{(a)}=\sin{(2a)}$ to simplify the expression for horizontal distance travelled. More generally, it performs any algebraic simplifications that do not change the semantics of the program. The only simplification performed in this snippet is the trigonometric one.
@@ -274,7 +335,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Iridium is an extension of [Amethyst](#amethyst) that marks all specification-level input variables as program outputs as well (i.e., inputs are re-iterated in outputs).
@@ -286,7 +347,7 @@ from math import sin, cos
 
 Θ = 3.1415926535 / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
 ```
 
 Onyx is a variant of [Iridium](#iridium) that inlines all constants, both theoretical and problem-specific, that are not explicitly marked as program inputs.
@@ -312,7 +373,7 @@ from math import sin, cos
 
 Θ = 3.1415926535 / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * 17.0 ** 2 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horizontal distance travelled by the projectile
+d = 2.0 * 17.0 ** 2.0 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horizontal distance travelled by the projectile
 ```
 
 Ferrous is an extension of [Light](#light) that marks all specification-level input variables (knowns) as program outputs as well.
@@ -327,12 +388,28 @@ from math import sin, cos
 
 __Θ__ = 3.1415926535 / 4  # Launch angle
 __s__ = 17.0  # Launch velocity
-d = 2 * __s__ ** 2 * sin(__Θ__) * cos(__Θ__) / 9.8  # Horizontal distance travelled by the projectile
+d = 2.0 * __s__ ** 2.0 * sin(__Θ__) * cos(__Θ__) / 9.8  # Horizontal distance travelled by the projectile
 ```
 
 Rotom is an extension of [Onyx](#onyx) replaces all input variable names with double-underscore wrapped versions.
 
 Rotom may also be viewed as an extension of [Yagami](#yagami) that does not export any variable other than output variables by default. Note that this is only possible when the ICO problem is meant to be the "whole program" and not the structure of a function within a larger program.
+
+### "Software Requirements → ICO Program Requirements" Choices
+
+#### *Oscar*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity near equator to 2 decimal places, m/s^2
+π = 3.1415926535  # Approximation of π to 10 decimal places, unitless (ratio of circumference to diameter)
+Θ = π / 4  # Launch angle, rad
+s = 17.0  # Launch velocity, m/s
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile, m
+```
+
+Oscar is an extension of [Amethyst](#amethyst) that renders unit information into variable descriptions of ICO program requirements.
 
 ### Specification Choices
 
@@ -345,8 +422,10 @@ g = 9.7803  # Acceleration due to gravity near equator to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
+
+Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
 
 <!------------------------------------------------------------------------------
 -- OLD VARIANTS
