@@ -9,57 +9,75 @@
       3. [_Dunkaroo_](#dunkaroo)
    3. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
       1. [Proxima](#proxima)
+   4. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
+      1. [Pistachio](#pistachio)
+      2. [Synergy](#synergy)
+      3. [Yagami](#yagami)
+      4. [Light](#light)
+      5. [Omega](#omega)
+      6. [Iridium](#iridium)
+      7. [Onyx](#onyx)
+      8. [Ferrous](#ferrous)
 3. [Old Variants](#old-variants)
-   1. [007](#007)
-   2. [Fun Machine](#fun-machine)
-   3. [Runabout](#runabout)
-   4. [Offense](#offense)
-   5. [Blade](#blade)
-   6. [En Route](#en-route)
-   7. [Glider](#glider)
-   8. [Octagon](#octagon)
-   9. [Strike](#strike)
-   10. [Iceberg](#iceberg)
-   11. [Super Bowl](#super-bowl)
-   12. [Crossroads](#crossroads)
-   13. [Ricochet](#ricochet)
-   14. [Commander](#commander)
-   15. [Blockade](#blockade)
-   16. [Invader](#invader)
-   17. [Alert](#alert)
-   18. [Focus](#focus)
-   19. [Xenon](#xenon)
-   20. [Genesis](#genesis)
-   21. [Backhander](#backhander)
-   22. [Scrappy](#scrappy)
-   23. [Vicinity](#vicinity)
-   24. [Universe](#universe)
-   25. [Torch](#torch)
-   26. [Edge](#edge)
-   27. [Mad Hatter](#mad-hatter)
-   28. [Foray](#foray)
-   29. [Boxer](#boxer)
-   30. [Pinball](#pinball)
-   31. [Omega](#omega)
-   32. [Sunset](#sunset)
-   33. [Steamroller](#steamroller)
-   34. [Volcano](#volcano)
-   35. [Pinnacle](#pinnacle)
-   36. [Starlight](#starlight)
-   37. [Coffee](#coffee)
-   38. [Paperclip](#paperclip)
-   39. [Nexus](#nexus)
-   40. [Brimstone](#brimstone)
+   1. [Blade](#blade)
+   2. [En Route](#en-route)
+   3. [Glider](#glider)
+   4. [Octagon](#octagon)
+   5. [Strike](#strike)
+   6. [Iceberg](#iceberg)
+   7. [Super Bowl](#super-bowl)
+   8. [Crossroads](#crossroads)
+   9. [Ricochet](#ricochet)
+   10. [Commander](#commander)
+   11. [Blockade](#blockade)
+   12. [Invader](#invader)
+   13. [Alert](#alert)
+   14. [Focus](#focus)
+   15. [Xenon](#xenon)
+   16. [Genesis](#genesis)
+   17. [Backhander](#backhander)
+   18. [Scrappy](#scrappy)
+   19. [Vicinity](#vicinity)
+   20. [Universe](#universe)
+   21. [Torch](#torch)
+   22. [Edge](#edge)
+   23. [Mad Hatter](#mad-hatter)
+   24. [Foray](#foray)
+   25. [Boxer](#boxer)
+   26. [Pinball](#pinball)
+   27. [Omega](#omega-1)
+   28. [Sunset](#sunset)
+   29. [Steamroller](#steamroller)
+   30. [Volcano](#volcano)
+   31. [Pinnacle](#pinnacle)
+   32. [Starlight](#starlight)
+   33. [Coffee](#coffee)
+   34. [Paperclip](#paperclip)
+   35. [Nexus](#nexus)
+   36. [Brimstone](#brimstone)
 
 ## Graph View of Variants
 
 ```mermaid
 flowchart LR
-    amethyst{{Amethyst}} -- { qualified imports } --> pentagon{{Pentagon}}
+    amethyst{{Amethyst}} 
+    
+    amethyst -- { qualified imports } --> pentagon{{Pentagon}}
     pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
     amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
+
     amethyst -- { no unicode chars } --> proxima{{Proxima}}
+
     amethyst -- { inline known values used exactly 1x } --> pistachio{{Pistachio}}
+    pistachio -- { partial evaluation } --> synergy{{Synergy}}
+    amethyst -- { inline all theoretical constants } --> yagami{{Yagami}}
+    yagami -- { inline all constants } --> light{{Light}}
+    amethyst -- { algebraic simplification } --> omega{{Omega}}
+    omega -- { inline all constants used exactly 1x } --> light
+    amethyst -- { all input variables are outputs too } --> iridium{{Iridium}}
+    iridium -- { inline all constants } --> onyx{{Onyx}}
+    onyx -- { all input variables are outputs too } --> ferrous{{Ferrous}}
+    light -- { all input variables are outputs too } --> ferrous
 ```
 
 **Legend**:
@@ -91,11 +109,13 @@ Amethyst is the “base” version of Projectile that has the following:
     3. Assumes **problem-specific constants**:
         1. Launch velocity: $s = 17~m/s$.
         2. Angle: $\theta = \frac{\pi}{4}~rad$.
-    4. Uss formula: $d = \frac{2s^2 \sin{\theta} \cos{\theta}}{g}$.
+    4. Uses formula: $d = \frac{2s^2 \sin{\theta} \cos{\theta}}{g}$.
 2. **Software Requirements → ICO Program Requirements" Choices**:
-    1. Tags specification-level theoretical constants (e.g., $g$, $\pi$) as **generic** program-level constants.
+    1. Naively extract a single linear system of equations from the problem description that calculates the outputs.
+    Tags specification-level theoretical constants (e.g., $g$, $\pi$) as **generic** program-level constants.
     2. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
     3. Tags specification-level output variables as program-level **exports**.
+    4. Drop specification-level variables that are not needed to calculate outputs.
 3. **"ICO Program Requirements → Code" Choices**:
     1. Single-file layout, immediate mode (no, or minimal, functions), with single global scope.
         1. Export all variables (known, intermediate, unknown, e.g., `g`, `π`, `Θ`, `s`).
@@ -191,6 +211,92 @@ d = 2 * 17.0 ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by 
 
 Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value whose symbol is only used once.
 
+#### Synergy
+
+```python
+d = 29.489795918367346  # Horizontal distance travelled by the projectile
+```
+
+Synergy is an extension of [Pistachio](#pistachio) that performs partial evaluation.
+
+#### Yagami
+
+```python
+from math import sin, cos
+
+Θ = 3.1415926535 / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+```
+
+Yagami is an extension of [Amethyst](#amethyst) that inlines all theoretical constant values.
+
+#### Light
+
+```python
+from math import sin, cos
+
+d = 2 * 17.0 ** 2 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horizontal distance travelled by the projectile
+```
+
+Light is an extension of [Yagami](#yagami) that inlines all constants, both theoretical and problem-specific.
+
+Light may also be viewwed as an extension of [Omega](#omega) that inlines all constants used exactly once.
+
+#### Omega
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = s ** 2 * sin(2 * Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Omega is an extension of [Amethyst](#amethyst) that uses the trigonometric identity $2\sin{(a)}\cos{(a)}=\sin{(2a)}$ to simplify the expression for horizontal distance travelled. More generally, it performs any algebraic simplifications that do not change the semantics of the program. The only simplification performed in this snippet is the trigonometric one.
+
+#### Iridium
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Iridium is an extension of [Amethyst](#amethyst) that demands all specification-level input variables (knowns) be present in the code, even if they are not strictly necessary to calculate the outputs. i.e., marks the input variables as program outputs as well.
+
+#### Onyx
+
+```python
+from math import sin, cos
+
+Θ = 3.1415926535 / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled by the projectile
+```
+
+Onyx is a variant of [Iridium](#iridium) that inlines all constants, both theoretical and problem-specific, that are not explicitly marked as program inputs.
+
+#### Ferrous
+
+```python
+from math import sin, cos
+
+Θ = 3.1415926535 / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * 17.0 ** 2 * sin(3.1415926535 / 4) * cos(3.1415926535 / 4) / 9.8  # Horizontal distance travelled by the projectile
+```
+
+Ferrous is an extension of [Light](#light) that marks all specification-level input variables (knowns) as program outputs as well.
+
+Ferrous may also be viewed as an extension of [Onyx](#onyx) that inlines all symbols used exactly once.
+
 
 
 <!------------------------------------------------------------------------------
@@ -198,46 +304,6 @@ Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value 
 ------------------------------------------------------------------------------->
 
 ## Old Variants
-
-### 007
-
-```python
-d = 29.489795918367346
-```
-
-Using the default known values, 007 is the floating-point-valued horizontal distance travelled/landing position. It is the residualized version of [Runabout](#runabout).
-
-### Fun Machine
-
-```python
-d = 29.549195832438677
-```
-
-Similar to 007, an extension of [Runabout](#runabout), except acceleration due to gravity constant assumes gravity near the equator (i.e., $g = 9.7803~m/s^2$) before being residualized.
-
-### Runabout
-
-Extension of [007](#007).
-
-```python
-import math
-d = 17.0 ** 2 * math.sin(2 * math.pi / 4) / 9.8
-```
-
-Runabout is 007 without approximate/partial evaluation.
-
-### Offense
-
-Extension of [Fun Machine](#fun-machine).
-
-Removing simplification: $2\sin{(a)}\cos{(a)}=\sin{(2a)}$
-
-To obtain the one previous, I removed flight time output and inlined its expression into landing positiont. What's left is this: landing position. One of the final expression simplifications permitted after inlining expressions was the above trigonometric formula. With the simplification removed, $\theta$ is used twice, but the configuration remains: no caching.
-
-```python
-import math
-d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.9
-```
 
 ### Blade
 
@@ -267,12 +333,6 @@ import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 0.0812
 ```
 
-
-
-
-
-
-
 ### Glider
 
 Extension of [Offense](#offense).
@@ -288,12 +348,6 @@ import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) * 12.3456
 ```
 
-
-
-
-
-
-
 ### Octagon
 
 Extension of [Offense](#offense).
@@ -308,12 +362,6 @@ import math
 d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-
-
-
-
-
-
 ### Strike
 
 Extension of [Octagon](#octagon).
@@ -326,12 +374,6 @@ import math
 d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-
-
-
-
-
-
 ### Iceberg
 
 ```python
@@ -343,21 +385,11 @@ d = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 
 Iceberg is one of the simplest versions of Projectile, placing known values in variables (**strict policy for all variables**). It calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
 
-
-
-
 <!-- Extension of [Strike](#strike).
 
 > Strict input value caching policy -->
 
-
 **Note**: `sin` appears before $\theta$ and after `s` in the `print` statement, so we generate `s` input assignment first, and then import `math`. The order of steps is approximately left-to-right including only what is strictly necessary above any particular step to reach the final output variable calculation.
-
-
-
-
-
-
 
 ### Super Bowl
 
@@ -372,12 +404,6 @@ import math
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
 ```
 
-
-
-
-
-
-
 ### Crossroads
 
 Extension of [Super Bowl](#super-bowl).
@@ -390,12 +416,6 @@ import math
 Θ = math.pi / 4  # Launch angle
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
 ```
-
-
-
-
-
-
 
 ### Ricochet
 
@@ -411,12 +431,6 @@ import math
 Θ = math.pi / 4  # Launch angle
 pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
 ```
-
-
-
-
-
-
 
 ### Commander
 
@@ -434,12 +448,6 @@ t = s * math.sin(Θ) / 4.9  # Flight time
 pl = s * t * math.cos(Θ)  # Landing position
 ```
 
-
-
-
-
-
-
 ### Blockade
 
 Extension of [Commander](#commander).
@@ -454,12 +462,6 @@ import math
 t = s * math.sin(Θ) / 4.9  # Flight time
 pl = s * t * math.cos(Θ)  # Landing position
 ```
-
-
-
-
-
-
 
 ### Invader
 
@@ -483,12 +485,6 @@ def calc(s, Θ):
 import math
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Alert
 
@@ -518,12 +514,6 @@ def calc(s, Θ):
 import math
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Focus
 
@@ -557,12 +547,6 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Xenon
 
 Extension of [Focus](#focus).
@@ -592,12 +576,6 @@ def calc(s, Θ):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Genesis
 
@@ -632,12 +610,6 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Backhander
 
 Extension of [Genesis](#genesis).
@@ -670,12 +642,6 @@ def calc(s, Θ):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Scrappy
 
@@ -710,12 +676,6 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Vicinity
 
 Extension of [Scrappy](#scrappy).
@@ -749,12 +709,6 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Universe
 
 Extension of [Vicinity](#vicinity).
@@ -785,12 +739,6 @@ def calc(s, Θ):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Torch
 
@@ -824,12 +772,6 @@ def calc(s, Θ):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Edge
 
 Extension of [Torch](#torch).
@@ -861,12 +803,6 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Mad Hatter
 
@@ -900,12 +836,6 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Foray
 
@@ -944,12 +874,6 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Boxer
 
 Extension of [Foray](#foray).
@@ -985,12 +909,6 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Pinball
 
 Extension of [Boxer](#boxer).
@@ -1025,12 +943,6 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Omega
 
@@ -1068,12 +980,6 @@ def calc(s, Θ, g=9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Sunset
 
 Extension of [Omega](#omega).
@@ -1109,12 +1015,6 @@ def calc(s, Θ, g=9.8):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Steamroller
 
@@ -1152,12 +1052,6 @@ def calc(s: float, Θ: float, g: float = 9.8):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Volcano
 
 Extension of [Steamroller](#steamroller).
@@ -1193,12 +1087,6 @@ def calc(s: float, Θ: float, float, g: float = 9.8) -> (float, float):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Pinnacle
 
@@ -1237,12 +1125,6 @@ def calc(s: float, Θ: float) -> (float, float):
 
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
-
-
-
-
-
-
 
 ### Starlight
 
@@ -1291,12 +1173,6 @@ def calc(s: float, Θ: float) -> (float, float):
 t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
 ```
 
-
-
-
-
-
-
 ### Coffee
 
 Extension of [Starlight](#starlight).
@@ -1333,12 +1209,6 @@ if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be with
 t = 2 * s * math.sin(Θ) / g  # Flight time, s (float)
 pl = s * t * math.cos(Θ)  # Landing position, m (float)
 ```
-
-
-
-
-
-
 
 ### Paperclip
 
@@ -1389,12 +1259,6 @@ t = 2 * s * math.sin(Θ) / g  # Flight time, s (float)
 pl = s * t * math.cos(Θ)  # Landing position, m (float)
 ```
 
-
-
-
-
-
-
 ### Nexus
 
 Extension of [Paperclip](#paperclip).
@@ -1443,12 +1307,6 @@ if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be with
 t = 2 * s * math.sin(Θ) / g  # Flight time (total time projectile in flight), s (float)
 pl = s * t * math.cos(Θ)  # Landing position (total distance projectile travelled from launcher), m (float)
 ```
-
-
-
-
-
-
 
 ### Brimstone
 
