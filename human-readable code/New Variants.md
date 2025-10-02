@@ -77,8 +77,6 @@ flowchart LR
     amethyst -- { no unicode chars } --> proxima{{Proxima}}
     amethyst -- { explicit type annotations } --> deceiver{{Deceiver}}
     amethyst -- { render whole numbered floats as ints } --> spa{{Spa}}
-    amethyst -- { remove all comments at the code level } --> whisky{{Whisky}}
-    amethyst -- { remove all comments at the specification level } --> whisky
 
     amethyst -- { inline known values used exactly 1x } --> pistachio{{Pistachio}}
     pistachio -- { partial evaluation } --> synergy{{Synergy}}
@@ -98,6 +96,11 @@ flowchart LR
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    amethyst -- { remove all comments at the code level } --> whisky{{Whisky}}
+    amethyst -- { remove all comments at the specification level } --> whisky
 ```
 
 **Legend**:
@@ -251,22 +254,6 @@ d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the p
 
 Spa is a variant of [Amethyst](#amethyst) that replaces whole numbered floats with integers. Note that this option is heavily tied to the language! This would not be allowed for Swift, which has a stricter type system.
 
-#### *Whisky*
-
-```python
-from math import sin, cos
-
-g = 9.8
-π = 3.1415926535
-Θ = π / 4
-s = 17.0
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
-```
-
-Whisky is an extension of [Amethyst](#amethyst) that removes any/all comments.
-
-Whisky may also be viewed as an extension of [Amethyst](#amethyst) that strips all comments at the level of the ICO program requirements generation from the specification.
-
 ### "ICO Program Requirements → Code" Variants
 
 #### *Pistachio*
@@ -380,7 +367,6 @@ Ferrous is an extension of [Light](#light) that marks all specification-level in
 
 Ferrous may also be viewed as an extension of [Onyx](#onyx) that inlines all symbols used exactly once.
 
-
 #### *Rotom*
 
 ```python
@@ -426,6 +412,24 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 ```
 
 Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
+
+### Equivalent Variants but Different Choice Paths
+
+#### *Whisky*
+
+```python
+from math import sin, cos
+
+g = 9.8
+π = 3.1415926535
+Θ = π / 4
+s = 17.0
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
+```
+
+Whisky is an extension of [Amethyst](#amethyst) that removes any/all comments.
+
+Whisky may also be viewed as an extension of [Amethyst](#amethyst) that strips all comments at the level of the ICO program requirements generation from the specification.
 
 <!------------------------------------------------------------------------------
 -- OLD VARIANTS
