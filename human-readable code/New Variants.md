@@ -7,6 +7,8 @@
       1. [_Pentagon_](#pentagon)
       2. [_Jasper_](#jasper)
       3. [_Dunkaroo_](#dunkaroo)
+   3. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
+      1. [Proxima](#proxima)
 3. [Old Variants](#old-variants)
    1. [007](#007)
    2. [Fun Machine](#fun-machine)
@@ -56,6 +58,7 @@ flowchart TD
     amethyst{{Amethyst}} -- { qualified imports } --> pentagon{{Pentagon}}
     pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
     amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
+    amethyst -- { no unicode chars } --> proxima{{Proxima}}
 ```
 
 **Legend**:
@@ -157,6 +160,22 @@ d = 2 * s ** 2 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by t
 
 Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
 
+### Last-mile "Code → Artifacts" Variants
+
+
+#### Proxima
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+pi = 3.1415926535  # Approximation of π to 10 decimal places
+theta = pi / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2 * s ** 2 * sin(theta) * cos(theta) / g  # Horizontal distance travelled by the projectile
+```
+
+Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode characters, using a dictionary of unicode characters to their ASCII equivalents. When no equivalent exists, the unicode character is replaced with a (manually created) descriptive name in snake_case. When name collisions occur, the same `_1`, `_2`, etc. suffix policy is used to avoid collisions.
 
 
 
@@ -167,19 +186,6 @@ Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments
 
 ## Old Variants
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### 007
 
 ```python
@@ -188,12 +194,6 @@ d = 29.489795918367346
 
 Using the default known values, 007 is the floating-point-valued horizontal distance travelled/landing position. It is the residualized version of [Runabout](#runabout).
 
-
-
-
-
-
-
 ### Fun Machine
 
 ```python
@@ -201,12 +201,6 @@ d = 29.549195832438677
 ```
 
 Similar to 007, an extension of [Runabout](#runabout), except acceleration due to gravity constant assumes gravity near the equator (i.e., $g = 9.7803~m/s^2$) before being residualized.
-
-
-
-
-
-
 
 ### Runabout
 
@@ -218,12 +212,6 @@ d = 17.0 ** 2 * math.sin(2 * math.pi / 4) / 9.8
 ```
 
 Runabout is 007 without approximate/partial evaluation.
-
-
-
-
-
-
 
 ### Offense
 
@@ -237,12 +225,6 @@ To obtain the one previous, I removed flight time output and inlined its express
 import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.9
 ```
-
-
-
-
-
-
 
 ### Blade
 
@@ -258,12 +240,6 @@ Extension of **Offense**.
 import math
 d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 4.89015
 ```
-
-
-
-
-
-
 
 ### En Route
 
