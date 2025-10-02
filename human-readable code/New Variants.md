@@ -2,17 +2,17 @@
 
 1. [Graph View of Variants](#graph-view-of-variants)
 2. [Variants](#variants)
-   1. [*Amethyst*](#amethyst)
-   2. [Imports-related Variants](#imports-related-variants)
-      1. [*Pentagon*](#pentagon)
-      2. [*Jasper*](#jasper)
-      3. [*Dunkaroo*](#dunkaroo)
-   3. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
+      1. [*Whisky*](#whisky)
+   1. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
+   2. [*Amethyst*](#amethyst)
       1. [*Proxima*](#proxima)
       2. [*Deceiver*](#deceiver)
       3. [*Spa*](#spa)
-      4. [*Whisky*](#whisky)
-   4. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
+      4. [Imports-related Variants](#imports-related-variants)
+         1. [*Pentagon*](#pentagon)
+         2. [*Jasper*](#jasper)
+         3. [*Dunkaroo*](#dunkaroo)
+   3. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
       3. [*Yagami*](#yagami)
@@ -23,9 +23,9 @@
       8. [*Alex*](#alex)
       9. [*Ferrous*](#ferrous)
       10. [*Rotom*](#rotom)
-   5. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
+   4. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
       1. [*Oscar*](#oscar)
-   6. [Specification Choices](#specification-choices)
+   5. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
 3. [Old Variants](#old-variants)
    1. [En Route](#en-route)
@@ -68,7 +68,9 @@
 
 ```mermaid
 flowchart LR
-    amethyst{{Amethyst}} 
+    whisky{{Whisky}}
+
+    whisky -- { enable comment rendering at the code level } --> amethyst{{Amethyst}}
     
     amethyst -- { qualified imports } --> pentagon{{Pentagon}}
     pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
@@ -96,11 +98,6 @@ flowchart LR
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    amethyst -- { remove all comments at the code level } --> whisky{{Whisky}}
-    amethyst -- { remove all comments at the specification level } --> whisky
 ```
 
 **Legend**:
@@ -110,19 +107,19 @@ flowchart LR
 
 ## Variants
 
-### *Amethyst*
+#### *Whisky*
 
 ```python
 from math import sin, cos
 
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+g = 9.8
+π = 3.1415926535
+Θ = π / 4
+s = 17.0
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
 ```
 
-Amethyst is the “base” version of Projectile that has the following:
+Whisky is the “base” version of Projectile that has the following:
 
 1. **Specification Choices**:
     1. Calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
@@ -142,7 +139,7 @@ Amethyst is the “base” version of Projectile that has the following:
 3. **"ICO Program Requirements → Code" Choices**:
     1. Single-file layout, immediate mode (no, or minimal, functions), with single global scope.
         1. Export all variables (known, intermediate, unknown, e.g., `g`, `π`, `Θ`, `s`).
-    4. Places all known values in variables at the top of the file, sorted alphabetically by descriptions, followed by all unknown variables, also sorted alphabetically by descriptions, up to dependencies.
+    2. Places all known values in variables at the top of the file, sorted alphabetically by descriptions, followed by all unknown variables, also sorted alphabetically by descriptions, up to dependencies.
 4. **"Code → Artifacts" Choices**:
     1. Uses **Python** with Python-specific choices:
         1. Requires **snake_case** for variable names. Automated renaming policy:
@@ -155,56 +152,26 @@ Amethyst is the “base” version of Projectile that has the following:
     3. Uses **4 spaces** for indentation.
     4. Uses **soft line length limit of 80 characters** (up to **85** characters before hard line breaks).
     5. Performs all **imports** at the **top of the file**.
-    6. **Requires comments** for all **variable definitions**.
-    7. **Requires comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
+    6. **Always renders non-empty comments** for all **variable definitions**.
+    7. **Always renders non-empty comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
     8. Places all statement comments on the same line.
     9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
 
-### Imports-related Variants
-
-#### *Pentagon*
-
-```python
-import math
-
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
-
-#### *Jasper*
-
-```python
-import math as m
-
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Jasper is an extension of [Pentagon](#pentagon) that qualifies imports with an alias.
-
-#### *Dunkaroo*
-
-```python
-import math # sin, cos
-
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
-
 ### Last-mile "Code → Artifacts" Variants
+
+### *Amethyst*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Amethyst is an extension of [Whisky](#whisky) that enables generation of comments at the `code -> artifact` level, changing to requiring non-empty comments for all variable *definitions*.
 
 #### *Proxima*
 
@@ -253,6 +220,50 @@ d = 2 * s ** 2 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the p
 ```
 
 Spa is a variant of [Amethyst](#amethyst) that replaces whole numbered floats with integers. Note that this option is heavily tied to the language! This would not be allowed for Swift, which has a stricter type system.
+
+#### Imports-related Variants
+
+##### *Pentagon*
+
+```python
+import math
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
+
+##### *Jasper*
+
+```python
+import math as m
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Jasper is an extension of [Pentagon](#pentagon) that qualifies imports with an alias.
+
+##### *Dunkaroo*
+
+```python
+import math # sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
 
 ### "ICO Program Requirements → Code" Variants
 
@@ -412,24 +423,6 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 ```
 
 Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
-
-### Equivalent Variants but Different Choice Paths
-
-#### *Whisky*
-
-```python
-from math import sin, cos
-
-g = 9.8
-π = 3.1415926535
-Θ = π / 4
-s = 17.0
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
-```
-
-Whisky is an extension of [Amethyst](#amethyst) that removes any/all comments.
-
-Whisky may also be viewed as an extension of [Amethyst](#amethyst) that strips all comments at the level of the ICO program requirements generation from the specification.
 
 <!------------------------------------------------------------------------------
 -- OLD VARIANTS
