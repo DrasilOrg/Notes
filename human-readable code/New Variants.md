@@ -24,7 +24,8 @@
       9. [*Ferrous*](#ferrous)
       10. [*Rotom*](#rotom)
    4. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
-      1. [*Oscar*](#oscar)
+      1. [*Scenic*](#scenic)
+      2. [*Oscar*](#oscar)
    5. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
 3. [Old Variants](#old-variants)
@@ -70,8 +71,7 @@
 flowchart LR
     whisky{{Whisky}}
 
-    whisky -- { enable comment rendering at the code level } --> amethyst{{Amethyst}}
-    
+    scenic -- { enable comment rendering at the code level } --> amethyst{{Amethyst}}
     amethyst -- { qualified imports } --> pentagon{{Pentagon}}
     pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
     amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
@@ -95,6 +95,7 @@ flowchart LR
     onyx -- { rename input variables to __var__ } --> rotom{{Rotom}}
     yagami -- { all variables except outputs are not exported } --> rotom
 
+    whisky -- { theoretical constants are generic program constants } --> scenic{{Scenic}}
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
@@ -112,11 +113,9 @@ flowchart LR
 ```python
 from math import sin, cos
 
-g = 9.8
-π = 3.1415926535
-Θ = π / 4
+Θ = 3.1415926535 / 4
 s = 17.0
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / 9.8
 ```
 
 Whisky is the “base” version of Projectile that has the following:
@@ -132,10 +131,10 @@ Whisky is the “base” version of Projectile that has the following:
     4. Uses formula: $d = \frac{2s^2 \sin{\theta} \cos{\theta}}{g}$.
 2. **Software Requirements → ICO Program Requirements" Choices**:
     1. Naively extract a single linear system of equations from the problem description that calculates the outputs.
-    Tags specification-level theoretical constants (e.g., $g$, $\pi$) as **generic** program-level constants.
-    2. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
-    3. Tags specification-level output variables as program-level **exports**.
-    4. Drop specification-level variables that are not needed to calculate outputs.
+    2. Inlines specification-level theoretical constants (e.g., $g$, $\pi$).
+    3. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
+    4. Tags specification-level output variables as program-level **exports**.
+    5. Drop specification-level variables that are not needed to calculate outputs.
 3. **"ICO Program Requirements → Code" Choices**:
     1. Single-file layout, immediate mode (no, or minimal, functions), with single global scope.
         1. Export all variables (known, intermediate, unknown, e.g., `g`, `π`, `Θ`, `s`).
@@ -152,8 +151,8 @@ Whisky is the “base” version of Projectile that has the following:
     3. Uses **4 spaces** for indentation.
     4. Uses **soft line length limit of 80 characters** (up to **85** characters before hard line breaks).
     5. Performs all **imports** at the **top of the file**.
-    6. **Always renders non-empty comments** for all **variable definitions**.
-    7. **Always renders non-empty comments** for all **assignments**. This is not highlighted in this snippet, but if we had mutation, it would be more clear.
+    6. **Does not render any comments** for **variable definitions**.
+    7. **Does not render any comments for any** for **assignments**. This is not highlighted in this snippet, but if we had mutation, it could be more clear.
     8. Places all statement comments on the same line.
     9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
 
@@ -171,7 +170,7 @@ s = 17.0  # Launch velocity
 d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
-Amethyst is an extension of [Whisky](#whisky) that enables generation of comments at the `code -> artifact` level, changing to requiring non-empty comments for all variable *definitions*.
+Amethyst is an extension of [Scenic](#scenic) that enables generation of comments at the `code -> artifact` level, changing to **rendering non-empty comments** for all variable *definitions*.
 
 #### *Proxima*
 
@@ -260,7 +259,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 π = 3.1415926535  # Approximation of π to 10 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * m.sin(Θ) * m.cos(Θ) / g  # Horizontal distance travelled by the projectile
+d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
 Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
@@ -336,7 +335,7 @@ s = 17.0  # Launch velocity
 d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
-Iridium is an extension of [Amethyst](#amethyst) that marks all specification-level input variables as program outputs as well (i.e., inputs are re-iterated in outputs).
+Iridium is an extension of [Amethyst](#amethyst) that marks all specification-level input variables as program outputs **as well** (i.e., inputs are re-iterated in outputs). Note that the code is identical to Amethyst, but the specification of what is an output has changed. Those variables must be retained in the final artifact. [Onyx](#onyx) highlights the utility of being able to do this.
 
 #### *Onyx*
 
@@ -394,6 +393,20 @@ Rotom may also be viewed as an extension of [Yagami](#yagami) that does not expo
 
 ### "Software Requirements → ICO Program Requirements" Choices
 
+#### *Scenic*
+
+```python
+from math import sin, cos
+
+g = 9.8
+π = 3.1415926535
+Θ = π / 4
+s = 17.0
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g
+```
+
+Scenic is an extension of [Whisky](#whisky) that marks all specification-level theoretical constants as **generic** program-level constants, unlike the previous version that inlined them.
+
 #### *Oscar*
 
 ```python
@@ -423,6 +436,22 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 ```
 
 Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!------------------------------------------------------------------------------
 -- OLD VARIANTS
