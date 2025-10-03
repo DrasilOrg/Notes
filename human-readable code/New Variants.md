@@ -15,55 +15,57 @@
    3. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
-      3. [*Yagami*](#yagami)
-      4. [*Light*](#light)
-      5. [*Omega*](#omega)
-      6. [*Iridium*](#iridium)
-      7. [*Onyx*](#onyx)
-      8. [*Alex*](#alex)
-      9. [*Ferrous*](#ferrous)
-      10. [*Rotom*](#rotom)
+      3. [*Hotel*](#hotel)
+      4. [*En Route*](#en-route)
+      5. [*Glider*](#glider)
+      6. [*Yagami*](#yagami)
+      7. [*Light*](#light)
+      8. [*Omega*](#omega)
+      9. [*Iridium*](#iridium)
+      10. [*Onyx*](#onyx)
+      11. [*Alex*](#alex)
+      12. [*Ferrous*](#ferrous)
+      13. [*Rotom*](#rotom)
    4. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
       1. [*Scenic*](#scenic)
       2. [*Oscar*](#oscar)
    5. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
+      2. [*Moon*](#moon)
 3. [Old Variants](#old-variants)
-   1. [En Route](#en-route)
-   2. [Glider](#glider)
-   3. [Octagon](#octagon)
-   4. [Strike](#strike)
-   5. [Iceberg](#iceberg)
-   6. [Super Bowl](#super-bowl)
-   7. [Crossroads](#crossroads)
-   8. [Ricochet](#ricochet)
-   9. [Commander](#commander)
-   10. [Blockade](#blockade)
-   11. [Invader](#invader)
-   12. [Alert](#alert)
-   13. [Focus](#focus)
-   14. [Xenon](#xenon)
-   15. [Genesis](#genesis)
-   16. [Backhander](#backhander)
-   17. [Scrappy](#scrappy)
-   18. [Vicinity](#vicinity)
-   19. [Universe](#universe)
-   20. [Torch](#torch)
-   21. [Edge](#edge)
-   22. [Mad Hatter](#mad-hatter)
-   23. [Foray](#foray)
-   24. [Boxer](#boxer)
-   25. [Pinball](#pinball)
-   26. [Omega](#omega-1)
-   27. [Sunset](#sunset)
-   28. [Steamroller](#steamroller)
-   29. [Volcano](#volcano)
-   30. [Pinnacle](#pinnacle)
-   31. [Starlight](#starlight)
-   32. [Coffee](#coffee)
-   33. [Paperclip](#paperclip)
-   34. [Nexus](#nexus)
-   35. [Brimstone](#brimstone)
+   1. [Octagon](#octagon)
+   2. [Strike](#strike)
+   3. [Iceberg](#iceberg)
+   4. [Super Bowl](#super-bowl)
+   5. [Crossroads](#crossroads)
+   6. [Ricochet](#ricochet)
+   7. [Commander](#commander)
+   8. [Blockade](#blockade)
+   9. [Invader](#invader)
+   10. [Alert](#alert)
+   11. [Focus](#focus)
+   12. [Xenon](#xenon)
+   13. [Genesis](#genesis)
+   14. [Backhander](#backhander)
+   15. [Scrappy](#scrappy)
+   16. [Vicinity](#vicinity)
+   17. [Universe](#universe)
+   18. [Torch](#torch)
+   19. [Edge](#edge)
+   20. [Mad Hatter](#mad-hatter)
+   21. [Foray](#foray)
+   22. [Boxer](#boxer)
+   23. [Pinball](#pinball)
+   24. [Omega](#omega-1)
+   25. [Sunset](#sunset)
+   26. [Steamroller](#steamroller)
+   27. [Volcano](#volcano)
+   28. [Pinnacle](#pinnacle)
+   29. [Starlight](#starlight)
+   30. [Coffee](#coffee)
+   31. [Paperclip](#paperclip)
+   32. [Nexus](#nexus)
+   33. [Brimstone](#brimstone)
 
 ## Graph View of Variants
 
@@ -82,6 +84,9 @@ flowchart LR
 
     amethyst -- { inline known values used exactly 1x } --> pistachio{{Pistachio}}
     pistachio -- { partial evaluation } --> synergy{{Synergy}}
+    moon -- { inline known values used exactly 1x } --> hotel{{Hotel}}
+    hotel -- { partial evaluation } --> en_route{{En Route}}
+    en_route -- { replace small float divisions with multiplications } --> glider{{Glider}}
     amethyst -- { inline all theoretical constants } --> yagami{{Yagami}}
     yagami -- { inline all constants } --> light{{Light}}
     amethyst -- { algebraic simplification } --> omega{{Omega}}
@@ -99,6 +104,7 @@ flowchart LR
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
+    amethyst -- { specification choice: g = 0.1624 } --> moon{{Moon}}
 ```
 
 **Legend**:
@@ -122,7 +128,7 @@ Whisky is the “base” version of Projectile that has the following:
 
 1. **Specification Choices**:
     1. Calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
-    2. Assumes **theoretical constant approximations:**
+    2. Assumes **theoretical constant approximations**:
         1. Acceleration due to gravity constant is $9.8~m/s^2$ (gravity near Earth's surface), i.e., average approximation of $g$ to 2 decimal places.
         2. $\pi$ is approximated to 10 decimal places.
     3. Assumes **problem-specific constants**:
@@ -155,6 +161,7 @@ Whisky is the “base” version of Projectile that has the following:
     7. **Does not render any comments for any** for **assignments**. This is not highlighted in this snippet, but if we had mutation, it could be more clear.
     8. Places all statement comments on the same line.
     9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
+    10. Uses the basic **float** type for all floating-point numbers.
 
 ### Last-mile "Code → Artifacts" Variants
 
@@ -283,7 +290,54 @@ Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value 
 d = 29.489795918367346  # Horizontal distance travelled by the projectile
 ```
 
-Synergy is an extension of [Pistachio](#pistachio) that performs partial evaluation.
+Synergy is an extension of [Pistachio](#pistachio) that performs partial evaluation. Note that $\theta$ disappears now because it is a statically known constant that can be partially evaluated in `d`, and so `d` no longer contains a reference to $\theta$ any longer, and thus [Pistachio](#pistachio)'s caching policy inlines it away.
+
+#### *Hotel*
+
+```python
+from math import sin, cos
+
+Θ = 3.1415926535 / 4  # Launch angle
+d = 2.0 * 17.0 ** 2.0 * sin(Θ) * cos(Θ) / 0.0812  # Horizontal distance travelled by the projectile
+```
+
+Hotel is an extension of [Moon](#moon) that inlines any known value whose symbol is only used once.
+
+#### *En Route*
+
+```python
+d = 1779.5566502463055
+```
+
+En Route is the residualized variant of [Hotel](#hotel). Note that when `g` is inlined, it inserts the raw 'small' value here. The final expression is as follows:
+
+```python
+import math
+d = 2.0 * 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 0.1624
+```
+
+#### *Glider*
+
+```python
+d = 1783.9391999999998
+```
+
+Glider is a variant of [En Route](#en-route) that, before any partial evaluation, for any small floating-point number (i.e., $<1$), replaces it with its reciprocal in the expression, changing division to multiplication. The final expression is as follows:
+
+```python
+import math
+d = 2.0 * 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) * 6.157635467980296
+```
+
+Note that this changes the final floating-point result slightly due to floating-point rounding error. The difference is very small, order of $10^{-12}$:
+
+```python
+>>> import math
+>>> 2.0 * 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 0.1624
+1779.5566502463055
+>>> 2.0 * 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) * 6.157635467980296
+1779.5566502463057
+```
 
 #### *Yagami*
 
@@ -437,6 +491,21 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 
 Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
 
+#### *Moon*
+
+```python
+from math import sin, cos
+
+g = 0.1624  # Acceleration due to gravity on the moon to 3 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Moon is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $0.1624~m/s^2$ (gravity on Moon).
+
+Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
 
 
 
@@ -459,33 +528,6 @@ Havana is an extension of [Amethyst](#amethyst) that changes the specification-l
 
 ## Old Variants
 
-### En Route
-
-Extension of [Offense](#offense).
-
-Assume acceleration due to gravity constant is $0.162~m/s^2$ (gravity on Moon)
-
-Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
-
-```python
-import math
-d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) / 0.0812
-```
-
-### Glider
-
-Extension of [Offense](#offense).
-
-> Assume acceleration due to gravity constant is $0.162~m/s^2$ (gravity on Moon)
-
-Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
-
-Extension of **Offense**.
-
-```python
-import math
-d = 17.0 ** 2 * math.sin(math.pi / 4) * math.cos(math.pi / 4) * 12.3456
-```
 
 ### Octagon
 

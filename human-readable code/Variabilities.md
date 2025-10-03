@@ -4,3 +4,9 @@
 4. "Code → Artifacts” Choices: This stage makes the final line decisions. It makes the most concrete choices about the final software artifacts. In some sense, this is where the least interesting choices are, including those about comment style, PL choice and the PL-specific choices, indentation style, module import style/export style, etc. For the variables with holes, assisted manual code snippet creation is necessary, and they would go here. For example, code related to ODEs.
 
 Note: the knowledge in the SmithEtAl SRS might “leak” across these passes. For example, an FR that says that input values must be exported would affect (3). The requirements set at any step can constrain the choices in the later stages.
+
+
+
+Partial Evaluation may happen at two stages: software requirements → ICO program requirements, and ICO program requirements → code. Both are sources of error. In particular, for floating-point accuracy, e.g., floating point multiplication and division operate differently in rounding, with division being less error-prone (?) but more expensive compared to multiplication. Source: https://stackoverflow.com/questions/4125033/floating-point-division-vs-floating-point-multiplication
+
+This is highlighted through En Route and Glider.
