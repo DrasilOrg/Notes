@@ -82,7 +82,8 @@ flowchart LR
     amethyst -- { explicit type annotations } --> deceiver{{Deceiver}}
     amethyst -- { render whole numbered floats as ints } --> spa{{Spa}}
 
-    amethyst -- { inline known values used exactly 1x } --> pistachio{{Pistachio}}
+    amethyst -- { inline known values used exactly 1x from ICO → Code stage} --> pistachio{{Pistachio}}
+    amethyst -- { inline known values used exactly 1x from SR → ICO PR stage } --> pistachio
     pistachio -- { partial evaluation } --> synergy{{Synergy}}
     moon -- { inline known values used exactly 1x } --> hotel{{Hotel}}
     hotel -- { partial evaluation } --> en_route{{En Route}}
@@ -283,6 +284,8 @@ d = 2.0 * 17.0 ** 2.0 * sin(Θ) * cos(Θ) / 9.8  # Horizontal distance travelled
 ```
 
 Pistachio is an extension of [Amethyst](#amethyst) that inlines any known value whose symbol is only used once.
+
+Pistachio may also be viewed as an extension of [Amethyst](#amethyst) that inlines any known value whose symbol is only used once from the "Software Requirements → ICO Program Requirements" Choices stage.
 
 #### *Synergy*
 
@@ -528,20 +531,6 @@ Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
 
 ## Old Variants
 
-
-### Octagon
-
-Extension of [Offense](#offense).
-
-> Introduce simple inputs caching policy: don't inline repeated variable use
-
-The new caching policy is to only cache if the variable needs to be used more than once.
-
-```python
-import math
-Θ = math.pi / 4
-d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
-```
 
 ### Strike
 
