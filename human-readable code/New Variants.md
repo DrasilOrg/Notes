@@ -4,15 +4,16 @@
 2. [Variants](#variants)
       1. [*Whisky*](#whisky)
    1. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
-   2. [*Amethyst*](#amethyst)
-      1. [*Proxima*](#proxima)
-      2. [*Deceiver*](#deceiver)
-      3. [*Spa*](#spa)
-      4. [Imports-related Variants](#imports-related-variants)
+      1. [*Amethyst*](#amethyst)
+      2. [*Proxima*](#proxima)
+      3. [*Deceiver*](#deceiver)
+      4. [*Spa*](#spa)
+      5. [Imports-related Variants](#imports-related-variants)
          1. [*Pentagon*](#pentagon)
          2. [*Jasper*](#jasper)
          3. [*Dunkaroo*](#dunkaroo)
-   3. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
+      6. [Lima](#lima)
+   2. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
       3. [*Hotel*](#hotel)
@@ -26,46 +27,44 @@
       11. [*Alex*](#alex)
       12. [*Ferrous*](#ferrous)
       13. [*Rotom*](#rotom)
-   4. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
+      14. [*Jumper*](#jumper)
+   3. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
       1. [*Scenic*](#scenic)
       2. [*Oscar*](#oscar)
-   5. [Specification Choices](#specification-choices)
+      3. [*Mikey*](#mikey)
+      4. [*Lazy*](#lazy)
+   4. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
       2. [*Moon*](#moon)
+      3. [*Spike*](#spike)
+      4. [*Lamp*](#lamp)
+      5. [*Apple*](#apple)
 3. [Old Variants](#old-variants)
-   1. [Octagon](#octagon)
-   2. [Strike](#strike)
-   3. [Iceberg](#iceberg)
-   4. [Super Bowl](#super-bowl)
-   5. [Crossroads](#crossroads)
-   6. [Ricochet](#ricochet)
-   7. [Commander](#commander)
-   8. [Blockade](#blockade)
-   9. [Invader](#invader)
-   10. [Alert](#alert)
-   11. [Focus](#focus)
-   12. [Xenon](#xenon)
-   13. [Genesis](#genesis)
-   14. [Backhander](#backhander)
-   15. [Scrappy](#scrappy)
-   16. [Vicinity](#vicinity)
-   17. [Universe](#universe)
-   18. [Torch](#torch)
-   19. [Edge](#edge)
-   20. [Mad Hatter](#mad-hatter)
-   21. [Foray](#foray)
-   22. [Boxer](#boxer)
-   23. [Pinball](#pinball)
-   24. [Omega](#omega-1)
-   25. [Sunset](#sunset)
-   26. [Steamroller](#steamroller)
-   27. [Volcano](#volcano)
-   28. [Pinnacle](#pinnacle)
-   29. [Starlight](#starlight)
-   30. [Coffee](#coffee)
-   31. [Paperclip](#paperclip)
-   32. [Nexus](#nexus)
-   33. [Brimstone](#brimstone)
+   1. [Invader](#invader)
+   2. [Alert](#alert)
+   3. [Focus](#focus)
+   4. [Xenon](#xenon)
+   5. [Genesis](#genesis)
+   6. [Backhander](#backhander)
+   7. [Scrappy](#scrappy)
+   8. [Vicinity](#vicinity)
+   9. [Universe](#universe)
+   10. [Torch](#torch)
+   11. [Edge](#edge)
+   12. [Mad Hatter](#mad-hatter)
+   13. [Foray](#foray)
+   14. [Boxer](#boxer)
+   15. [Pinball](#pinball)
+   16. [Omega](#omega-1)
+   17. [Sunset](#sunset)
+   18. [Steamroller](#steamroller)
+   19. [Volcano](#volcano)
+   20. [Pinnacle](#pinnacle)
+   21. [Starlight](#starlight)
+   22. [Coffee](#coffee)
+   23. [Paperclip](#paperclip)
+   24. [Nexus](#nexus)
+   25. [Brimstone](#brimstone)
 
 ## Graph View of Variants
 
@@ -77,10 +76,10 @@ flowchart LR
     amethyst -- { qualified imports } --> pentagon{{Pentagon}}
     pentagon -- { qualified imports (with alias) } --> jasper{{Jasper}}
     amethyst -- { explicit import list w/ comment } --> dunkaroo{{Dunkaroo}}
-
     amethyst -- { no unicode chars } --> proxima{{Proxima}}
     amethyst -- { explicit type annotations } --> deceiver{{Deceiver}}
     amethyst -- { render whole numbered floats as ints } --> spa{{Spa}}
+    mikey -- { fill hole with math.pi } --> lima{{Lima}}
 
     amethyst -- { inline known values used exactly 1x from ICO → Code stage} --> pistachio{{Pistachio}}
     amethyst -- { inline known values used exactly 1x from SR → ICO PR stage } --> pistachio
@@ -100,12 +99,18 @@ flowchart LR
     light -- { all input variables are outputs too } --> ferrous
     onyx -- { rename input variables to __var__ } --> rotom{{Rotom}}
     yagami -- { all variables except outputs are not exported } --> rotom
+    apple -- { separate groups of related variables with whitespace } --> jumper{{Jumper}}
 
     whisky -- { theoretical constants are generic program constants } --> scenic{{Scenic}}
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
+    oscar -- { replace π with hole } --> mikey{{Mikey}}
+    amethyst -- { order instructions by dependency } --> lazy{{Lazy}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
     amethyst -- { specification choice: g = 0.1624 } --> moon{{Moon}}
+    amethyst -- { new variable: flight time (t) } --> spike{{Spike}}
+    spike -- { designate t as output variable } --> lamp{{Lamp}}
+    lamp -- { introduce new formula for d based on t } --> apple{{Apple}}
 ```
 
 **Legend**:
@@ -166,7 +171,7 @@ Whisky is the “base” version of Projectile that has the following:
 
 ### Last-mile "Code → Artifacts" Variants
 
-### *Amethyst*
+#### *Amethyst*
 
 ```python
 from math import sin, cos
@@ -271,6 +276,22 @@ d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance trav
 ```
 
 Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
+
+#### Lima
+
+```python
+from math import sin, cos, pi
+
+g = 9.8  # Acceleration due to gravity near equator to 2 decimal places, m/s^2
+π = pi  # Approximation of π to 10 decimal places, unitless (ratio of circumference to diameter)
+Θ = π / 4  # Launch angle, rad
+s = 17.0  # Launch velocity, m/s
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile, m
+```
+
+Lima is an extension of [Mikey](#mikey) that replaces the "hole" for $\pi$ with the value of `math.pi`, allowing the code to compile.
+
+Now, this particular `math.pi` was supposed to demonstrate how a developer would need to provide some ODE solver code snippet, however, this can also extend to operators and functions. For example, our current Python code uses the built-in `math` library's `sin` and `cos` functions, but a developer could replace these with their own implementations, or use a different library (e.g., `numpy` or [`approxmath`](https://github.com/brendanashworth/approxmath)).
 
 ### "ICO Program Requirements → Code" Variants
 
@@ -448,6 +469,22 @@ Rotom is an extension of [Onyx](#onyx) replaces all input variable names with do
 
 Rotom may also be viewed as an extension of [Yagami](#yagami) that does not export any variable other than output variables by default. Note that this is only possible when the ICO problem is meant to be the "whole program" and not the structure of a function within a larger program.
 
+#### *Jumper*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
+
+Jumper is an extension of [Apple](#apple) introduces white-space-based code separation between tagged groups of variables. Here, this only separates generic program constants from exports (as they were designated in [Whisky](#whisky)).
+
 ### "Software Requirements → ICO Program Requirements" Choices
 
 #### *Scenic*
@@ -477,6 +514,25 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 ```
 
 Oscar is an extension of [Amethyst](#amethyst) that renders unit information into variable descriptions of ICO program requirements.
+
+#### *Mikey*
+
+**DOES NOT COMPILE.**
+
+Mikey is an extension of [Oscar](#oscar) that replaces the constant value for $\pi$ with a "hole" that a programmer would need to fill in at the "Code → Artifacts" stage. See [Lima](#lima) for a variant that compiles.
+
+#### *Lazy*
+
+```python
+s = 17.0  # Launch velocity
+π = 3.1415926535  # Approximation of π to 10 decimal places
+from math import sin, cos
+Θ = π / 4  # Launch angle
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Lazy is an extension of [Amethyst](#amethyst) that begins orders program instructions in the order they are needed to compute the final output variable(s). For example, here, `d` is the only "output" variable, so it is placed last, and the instructions before it are all those needed to compute `d`, in approximately left-to-right, top-to-bottom order.
 
 ### Specification Choices
 
@@ -510,128 +566,53 @@ Moon is an extension of [Amethyst](#amethyst) that changes the specification-lev
 
 Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
 
+#### *Spike*
 
+```python
+from math import sin, cos
 
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
 
+Spike is an extension to [Amethyst](#amethyst) that introduces a new specification-level variable: flight time. Note that this does not change the code, as flight time is not used in the calculation of horizontal distance travelled.
 
+#### *Lamp*
 
+```python
+from math import sin, cos
 
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
 
+Lamp is an extension of [Spike](#spike) that designates flight time as an output variable.
 
+#### *Apple*
 
+```python
+from math import sin, cos
 
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
 
-
-
-
-
-<!------------------------------------------------------------------------------
--- OLD VARIANTS
-------------------------------------------------------------------------------->
+Apple is an extension of [Lamp](#lamp) that *adds* a new formula for travel distance that uses flight time.
 
 ## Old Variants
 
-
-### Strike
-
-Extension of [Octagon](#octagon).
-
-> Add a comment for `Θ`
-
-```python
-import math
-Θ = math.pi / 4  # Launch angle
-d = 17.0 ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
-```
-
-### Iceberg
-
-```python
-s = 17.0  # Launch velocity
-import math
-Θ = math.pi / 4  # Launch angle
-d = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
-```
-
-Iceberg is one of the simplest versions of Projectile, placing known values in variables (**strict policy for all variables**). It calculates the horizontal distance travelled of a projectile fired at $\theta{}\degree{}~($where $0 < \theta{} < \frac{\pi}{2}$$)$ from a position $(x,y)$ to a position $(x+d,y)$.
-
-<!-- Extension of [Strike](#strike).
-
-> Strict input value caching policy -->
-
-**Note**: `sin` appears before $\theta$ and after `s` in the `print` statement, so we generate `s` input assignment first, and then import `math`. The order of steps is approximately left-to-right including only what is strictly necessary above any particular step to reach the final output variable calculation.
-
-### Super Bowl
-
-Extension of [Iceberg](#iceberg).
-
-> Rename `d` to `pl`
-
-```python
-s = 17.0  # Launch velocity
-import math
-Θ = math.pi / 4  # Launch angle
-pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9
-```
-
-### Crossroads
-
-Extension of [Super Bowl](#super-bowl).
-
-> Add comment explaining what `d` is
-
-```python
-s = 17.0  # Launch velocity
-import math
-Θ = math.pi / 4  # Launch angle
-pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
-```
-
-### Ricochet
-
-Extension of [Crossroads](#crossroads).
-
-> Introduce a new variable: flight time
-
-I will assume that the policy of caching expressions applies to all input and output variables. Not necessarily intermediate variables, which is not directly highlighted through this snippet.
-
-```python
-s = 17.0  # Launch velocity
-import math
-Θ = math.pi / 4  # Launch angle
-pl = s ** 2 * math.sin(Θ) * math.cos(Θ) / 4.9  # Landing position
-```
-
-### Commander
-
-Extension of [Ricochet](#ricochet).
-
-> Designate "flight time" to be an output variable
-
-With flight time designated as an output variable (or alternatively because it will be used more once), it is cached in a variable before being output.
-
-```python
-s = 17.0  # Launch velocity
-import math
-Θ = math.pi / 4  # Launch angle
-t = s * math.sin(Θ) / 4.9  # Flight time
-pl = s * t * math.cos(Θ)  # Landing position
-```
-
-### Blockade
-
-Extension of [Commander](#commander).
-
-> Introduce a whitespace policy: break code by key variables of interest (i.e., "outputs")
-
-```python
-s = 17.0  # Launch velocity
-import math
-Θ = math.pi / 4  # Launch angle
-
-t = s * math.sin(Θ) / 4.9  # Flight time
-pl = s * t * math.cos(Θ)  # Landing position
-```
+1. Remove flight time as an output variable.
 
 ### Invader
 
