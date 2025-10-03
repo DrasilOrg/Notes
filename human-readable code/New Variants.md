@@ -173,7 +173,7 @@ s = 17.0  # Launch velocity
 d = 2.0 * s ** 2.0 * sin(theta) * cos(theta) / g  # Horizontal distance travelled by the projectile
 ```
 
-Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode characters, using a dictionary of unicode characters to their ASCII equivalents. When no equivalent exists, the unicode character is replaced with a (manually created) descriptive name in snake_case. When name collisions occur, the same `_1`, `_2`, etc. suffix policy is used to avoid collisions.
+Proxima is an extension of [Amethyst](#amethyst) but does not permit unicode characters, using a dictionary of unicode characters to their ASCII equivalents. When no equivalent exists, the unicode character is replaced with a (manually created) descriptive name in snake_case. When name collisions occur, the same `_1`, `_2`, etc. suffix policy is used to avoid collisions. What "ASCII" is would need be defined elsewhere.
 
 #### *Deceiver*
 
@@ -213,6 +213,7 @@ Spa is a variant of [Amethyst](#amethyst) that replaces whole numbered floats wi
 
 ##### *Pentagon*
 
+
 ```python
 import math
 
@@ -223,7 +224,7 @@ s = 17.0  # Launch velocity
 d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
-Pentagon is an extension of [Amethyst](#amethyst) that removes locally pulled imports in favour of qualified imports.
+Pentagon is an extension of [Amethyst](#amethyst) that changes an explicit imports list to a single qualified import (i.e., `import math`), changing all uses of imported functions to be qualified (e.g., `math.sin`, `math.cos`).
 
 ##### *Jasper*
 
