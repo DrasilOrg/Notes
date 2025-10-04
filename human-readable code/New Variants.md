@@ -138,6 +138,7 @@ Whisky is the “base” version of Projectile that has the following:
     3. Tags specification-level problem-specific constants (e.g., launch velocity, angle) as **generic** program-level constants.
     4. Tags specification-level output variables as program-level **exports**.
     5. Drop specification-level variables that are not needed to calculate outputs.
+    6. **Drops** all variable constraints.
 3. **"ICO Program Requirements → Code" Choices**:
     1. Single-file layout, immediate mode (no, or minimal, functions), with single global scope.
         1. Export all variables (known, intermediate, unknown, e.g., `g`, `π`, `Θ`, `s`).
@@ -159,6 +160,7 @@ Whisky is the “base” version of Projectile that has the following:
     8. Places all statement comments on the same line.
     9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
     10. Uses the basic **float** type for all floating-point numbers.
+    11. By default, constraints are all soft (i.e., disableable [by passing `-O` to Python](https://docs.python.org/3/using/cmdline.html#cmdoption-O)).
 
 ### Last-mile "Code → Artifacts" Variants
 
@@ -341,6 +343,34 @@ t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projecti
 ```
 
 Focus is an extension of [Lychee](#lychee) that minimizes the scope of imports by placing them inside functions that use them. For other languages, this might not be possible, however, fully qualified `import`-less references are possible (e.g., in the case of Java, `java.lang.Math.sin`, `java.lang.Math.cos`, etc.).
+
+#### *Vicinity*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    if s <= 0: raise ValueError("Launch velocity must be positive")
+    if 0 >= Θ or Θ >= π / 2: raise ValueError("Launch angle must be between 0 and π/2")
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    if t <= 0: raise ValueError("Flight time calculation failed, t must be positive")
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    if d <= 0: raise ValueError("Horizontal distance calculation failed, d must be positive")
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Vicinity is an extension of [Jester](#jester) that makes all constraint enforcement code throw hard errors on ailure (i.e., not disableable)
 
 ### "ICO Program Requirements → Code" Variants
 

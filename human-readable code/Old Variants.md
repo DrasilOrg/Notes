@@ -1,89 +1,21 @@
-1. [Scrappy](#scrappy)
-2. [Vicinity](#vicinity)
-3. [Universe](#universe)
-4. [Torch](#torch)
-5. [Edge](#edge)
-6. [Mad Hatter](#mad-hatter)
-7. [Foray](#foray)
-8. [Boxer](#boxer)
-9. [Pinball](#pinball)
-10. [Omega](#omega)
-11. [Sunset](#sunset)
-12. [Steamroller](#steamroller)
-13. [Volcano](#volcano)
-14. [Pinnacle](#pinnacle)
-15. [Starlight](#starlight)
-16. [Coffee](#coffee)
-17. [Paperclip](#paperclip)
-18. [Nexus](#nexus)
-19. [Brimstone](#brimstone)
-
-
-### Scrappy
-
-Extension of [Backhander](#backhander).
-
-> Friendlier assertion messages
-
-Soft because `assert` is disableable by passing `-O` to Python.
-
-```python
-import math
-
-
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-    assert s > 0.0, "Velocity must be greater 0.0."
-    assert 0.0 < Θ and Θ < math.pi / 2.0, "Launch angle must be within (0, pi/2)"
-
-    t = s * math.sin(Θ) / 4.9
-    pl = s * t * math.cos(Θ)
-    return (t, pl)
-
-
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
-
-### Vicinity
-
-Extension of [Scrappy](#scrappy).
-
-> Switch to hard sanity constraints (written in the negative)
-
-Note that single-line blocks use the compressed Python block style.
-
-```python
-import math
-
-
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-    if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
-    if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
-
-    t = s * math.sin(Θ) / 4.9
-    pl = s * t * math.cos(Θ)
-    return (t, pl)
-
-
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
+1. [Vicinity](#vicinity)
+2. [Universe](#universe)
+3. [Torch](#torch)
+4. [Edge](#edge)
+5. [Mad Hatter](#mad-hatter)
+6. [Foray](#foray)
+7. [Boxer](#boxer)
+8. [Pinball](#pinball)
+9. [Omega](#omega)
+10. [Sunset](#sunset)
+11. [Steamroller](#steamroller)
+12. [Volcano](#volcano)
+13. [Pinnacle](#pinnacle)
+14. [Starlight](#starlight)
+15. [Coffee](#coffee)
+16. [Paperclip](#paperclip)
+17. [Nexus](#nexus)
+18. [Brimstone](#brimstone)
 
 ### Universe
 
