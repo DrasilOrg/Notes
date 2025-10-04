@@ -12,7 +12,9 @@
          1. [*Pentagon*](#pentagon)
          2. [*Jasper*](#jasper)
          3. [*Dunkaroo*](#dunkaroo)
-      6. [Lima](#lima)
+      6. [*Lima*](#lima)
+      7. [*Drawer*](#drawer)
+      8. [*Focus*](#focus)
    2. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
@@ -28,17 +30,24 @@
       12. [*Ferrous*](#ferrous)
       13. [*Rotom*](#rotom)
       14. [*Jumper*](#jumper)
+      15. [*Lychee*](#lychee)
+      16. [*Nomad*](#nomad)
+      17. [*Jester*](#jester)
    3. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
       1. [*Scenic*](#scenic)
       2. [*Oscar*](#oscar)
       3. [*Mikey*](#mikey)
       4. [*Lazy*](#lazy)
+      5. [*Constrained*](#constrained)
+      6. [*Over-constrained*](#over-constrained)
    4. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
       2. [*Moon*](#moon)
       3. [*Spike*](#spike)
       4. [*Lamp*](#lamp)
       5. [*Apple*](#apple)
+         1. [*Apple V1*](#apple-v1)
+         2. [*Apple V2*](#apple-v2)
 
 ## Graph View of Variants
 
@@ -54,6 +63,8 @@ flowchart LR
     amethyst -- { explicit type annotations } --> deceiver{{Deceiver}}
     amethyst -- { render whole numbered floats as ints } --> spa{{Spa}}
     mikey -- { fill hole with math.pi } --> lima{{Lima}}
+    lychee -- { Google DocString function comments } --> drawer{{Drawer}}
+    lychee -- { minimize import scope } --> focus{{Focus}}
 
     amethyst -- { inline known values used exactly 1x from ICO → Code stage} --> pistachio{{Pistachio}}
     amethyst -- { inline known values used exactly 1x from SR → ICO PR stage } --> pistachio
@@ -74,11 +85,15 @@ flowchart LR
     onyx -- { rename input variables to __var__ } --> rotom{{Rotom}}
     yagami -- { all variables except outputs are not exported } --> rotom
     apple -- { separate groups of related variables with whitespace } --> jumper{{Jumper}}
+    jumper -- { encapsulate intermediate calculation logic in a function } --> lychee{{Lychee}}
+    constrained -- { encapsulate intermediate calculation logic in a function } --> nomad{{Nomad}}
 
     whisky -- { theoretical constants are generic program constants } --> scenic{{Scenic}}
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
     oscar -- { replace π with hole } --> mikey{{Mikey}}
     amethyst -- { order instructions by dependency } --> lazy{{Lazy}}
+    apple -- { add constraints on inputs } --> constrained{{Constrained}}
+    constrained -- { add constraints on outputs } --> over_constrained{{Over-constrained}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
     amethyst -- { specification choice: g = 0.1624 } --> moon{{Moon}}
@@ -254,7 +269,7 @@ d = 2.0 * s ** 2.0 * math.sin(Θ) * math.cos(Θ) / g  # Horizontal distance trav
 
 Dunkaroo is an extension of [Amethyst](#amethyst) that lists imports in comments next to the `import` statement (where possible, restricting the import).
 
-#### Lima
+#### *Lima*
 
 ```python
 from math import sin, cos, pi
@@ -269,6 +284,63 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 Lima is an extension of [Mikey](#mikey) that replaces the "hole" for $\pi$ with the value of `math.pi`, allowing the code to compile.
 
 Now, this particular `math.pi` was supposed to demonstrate how a developer would need to provide some ODE solver code snippet, however, this can also extend to operators and functions. For example, our current Python code uses the built-in `math` library's `sin` and `cos` functions, but a developer could replace these with their own implementations, or use a different library (e.g., `numpy` or [`approxmath`](https://github.com/brendanashworth/approxmath)).
+
+#### *Drawer*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    """
+    Args:
+        s: Launch velocity
+        Θ: Launch angle
+
+    Returns:
+        t: Flight time
+        pl: Landing position
+    """
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Drawer is an extension of [Lychee](#lychee) that switches to [Google DocString](https://google.github.io/styleguide/pyguide.html) ([example](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)) formatted function descriptions. This is a common Python convention.
+
+#### *Focus*
+
+```python
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    from math import sin, cos
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Focus is an extension of [Lychee](#lychee) that minimizes the scope of imports by placing them inside functions that use them. For other languages, this might not be possible, however, fully qualified `import`-less references are possible (e.g., in the case of Java, `java.lang.Math.sin`, `java.lang.Math.cos`, etc.).
 
 ### "ICO Program Requirements → Code" Variants
 
@@ -460,7 +532,87 @@ t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
 d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
 ```
 
-Jumper is an extension of [Apple](#apple) introduces white-space-based code separation between tagged groups of variables. Here, this only separates generic program constants from exports (as they were designated in [Whisky](#whisky)).
+Jumper is an extension of [Apple V1](#apple-v1) introduces white-space-based code separation between tagged groups of variables. Here, this only separates generic program constants from exports (as they were designated in [Whisky](#whisky)).
+
+#### *Lychee*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Lychee is an extension of [Jumper](#jumper) that introduces a function to encapsulate the core logic of the program, separating it from the known values. This is a false step towards modularization and reusability. Note that if this were in Java, `calc` would be a `public static` method of the main class, the constants would be `public static final` members, and the final steps after the function definition would be in the main method.
+
+#### *Nomad*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Nomad is an extension of [Constrained](#constrained) that introduces a single-calculation-function structure similar to [Lychee](#lychee).
+
+#### *Jester*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    assert t > 0, "Flight time calculation failed, t must be positive"
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    assert d > 0, "Horizontal distance calculation failed, d must be positive"
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Jester is an extension of [Over Constrained](#over-constrained) that introduces a single-calculation-function structure similar to [Lychee](#lychee) and [Nomad](#nomad).
+
 
 ### "Software Requirements → ICO Program Requirements" Choices
 
@@ -510,6 +662,50 @@ d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by t
 ```
 
 Lazy is an extension of [Amethyst](#amethyst) that begins orders program instructions in the order they are needed to compute the final output variable(s). For example, here, `d` is the only "output" variable, so it is placed last, and the instructions before it are all those needed to compute `d`, in approximately left-to-right, top-to-bottom order.
+
+#### *Constrained*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+assert s > 0, "Launch velocity must be positive"
+assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
+
+Constrained is an extension of [Apple V1](#apple-v1) that exposes the following specification-level constraints on the input variables:
+
+1. Launch angle $\theta$ must be between $0$ and $\frac{\pi}{2}$ radians.
+2. Launch velocity $s$ must be positive.
+
+Note that this changes the code here because partial evaluation is not enabled. Additionally, by default, all constraints are softened (i.e., disableable [by passing `-O` to Python](https://docs.python.org/3/using/cmdline.html#cmdoption-O)) in the "Code → Artifacts" stage.
+
+#### *Over-constrained*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+assert s > 0, "Launch velocity must be positive"
+assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+assert t > 0, "Flight time calculation failed, t must be positive"
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+assert d > 0, "Horizontal distance calculation failed, d must be positive"
+```
+
+Over Constrained is an extension of [Constrained](#constrained) that exposes the following specification-level constraints on the output variables:
+
+1. Time of flight $t$ must be positive.
+2. Horizontal distance travelled $d$ must be positive.
 
 ### Specification Choices
 

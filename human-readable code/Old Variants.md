@@ -1,208 +1,23 @@
-1. [Invader](#invader)
-2. [Alert](#alert)
-3. [Focus](#focus)
-4. [Xenon](#xenon)
-5. [Genesis](#genesis)
-6. [Backhander](#backhander)
-7. [Scrappy](#scrappy)
-8. [Vicinity](#vicinity)
-9. [Universe](#universe)
-10. [Torch](#torch)
-11. [Edge](#edge)
-12. [Mad Hatter](#mad-hatter)
-13. [Foray](#foray)
-14. [Boxer](#boxer)
-15. [Pinball](#pinball)
-16. [Omega](#omega)
-17. [Sunset](#sunset)
-18. [Steamroller](#steamroller)
-19. [Volcano](#volcano)
-20. [Pinnacle](#pinnacle)
-21. [Starlight](#starlight)
-22. [Coffee](#coffee)
-23. [Paperclip](#paperclip)
-24. [Nexus](#nexus)
-25. [Brimstone](#brimstone)
+1. [Scrappy](#scrappy)
+2. [Vicinity](#vicinity)
+3. [Universe](#universe)
+4. [Torch](#torch)
+5. [Edge](#edge)
+6. [Mad Hatter](#mad-hatter)
+7. [Foray](#foray)
+8. [Boxer](#boxer)
+9. [Pinball](#pinball)
+10. [Omega](#omega)
+11. [Sunset](#sunset)
+12. [Steamroller](#steamroller)
+13. [Volcano](#volcano)
+14. [Pinnacle](#pinnacle)
+15. [Starlight](#starlight)
+16. [Coffee](#coffee)
+17. [Paperclip](#paperclip)
+18. [Nexus](#nexus)
+19. [Brimstone](#brimstone)
 
-### Invader
-
-Extension of [Blockade](#blockade).
-
-> Introduce function for algorithm reuse
-
-```python
-def calc(s, Θ):
-    # s: Launch velocity
-    # Θ: Launch angle
-    import math
-
-    t = s * math.sin(Θ) / 4.9  # Flight time
-
-    pl = s * t * math.cos(Θ)  # Landing position
-
-    return (t, pl)
-
-
-import math
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
-
-### Alert
-
-Extension of [Invader](#invader).
-
-> Switch to [Google DocString Format](https://google.github.io/styleguide/pyguide.html) ([example](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)) for function comments.
-
-```python
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-    import math
-    t = s * math.sin(Θ) / 4.9
-
-    pl = s * t * math.cos(Θ)
-
-    return (t, pl)
-
-
-import math
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
-
-### Focus
-
-Extension of [Alert](#alert).
-
-> De-duplicate imports
-
-Unfortunately, Python's required 2 empty lines before/after function definitions become empty space spam in this document.
-
-```python
-import math
-
-
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-    t = s * math.sin(Θ) / 4.9
-
-    pl = s * t * math.cos(Θ)
-
-    return (t, pl)
-
-
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
-
-### Xenon
-
-Extension of [Focus](#focus).
-
-> Don't break blocks by "output" variable calculations
-
-I say "output" but I really mean "key variables of interest."
-
-```python
-import math
-
-
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-    t = s * math.sin(Θ) / 4.9
-    pl = s * t * math.cos(Θ)
-    return (t, pl)
-
-
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
-
-### Genesis
-
-Extension of [Xenon](#xenon).
-
-> Impose soft sanity constraints on inputs
-
-Soft because `assert` is disableable by passing `-O` to Python. Note that the constraints are intermixed with the steps (only executed just before first use of a variable, same lazy policy).
-
-```python
-import math
-
-
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-
-    assert s > 0.0, "Velocity > 0.0"
-    assert 0.0 < Θ and Θ < math.pi / 2.0, "0.0 < Θ < π/2"
-    t = s * math.sin(Θ) / 4.9
-    pl = s * t * math.cos(Θ)
-    return (t, pl)
-
-
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
-
-### Backhander
-
-Extension of [Genesis](#genesis).
-
-> New code policy: input value assertions grouped together in function blocks
-
-Soft because `assert` is disableable by passing `-O` to Python.
-
-```python
-import math
-
-
-def calc(s, Θ):
-    """
-    Args:
-        s: Launch velocity
-        Θ: Launch angle
-
-    Returns:
-        t: Flight time
-        pl: Landing position
-    """
-    assert s > 0.0, "Velocity > 0.0"
-    assert 0.0 < Θ and Θ < math.pi / 2.0, "0.0 < Θ < π/2"
-
-    t = s * math.sin(Θ) / 4.9
-    pl = s * t * math.cos(Θ)
-    return (t, pl)
-
-
-t, pl = calc(17.0, math.pi / 4)  # (Flight time, Landing position)
-```
 
 ### Scrappy
 
