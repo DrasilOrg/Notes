@@ -42,23 +42,6 @@ def func_s(p_target, epsilon, d_offset):
     else:
         return "The projectile went long."
 
-## \brief Reads input from a file with the given file name
-# \param filename name of the input file
-# \return launch speed (m/s)
-# \return launch angle (rad)
-# \return target position (m)
-def get_input(filename):
-    infile = open(filename, "r")
-    infile.readline()
-    v_launch = float(infile.readline())
-    infile.readline()
-    theta = float(infile.readline())
-    infile.readline()
-    p_target = float(infile.readline())
-    infile.close()
-    
-    return v_launch, theta, p_target
-
 ## \brief Verifies that input values satisfy the physical constraints
 # \param v_launch launch speed (m/s)
 # \param theta launch angle (rad)
@@ -92,19 +75,6 @@ def input_constraints(v_launch, theta, p_target):
         print(0.0, end="")
         print(".")
 
-## \brief Writes the output values to output.txt
-# \param s output message as a string
-# \param d_offset distance between the target position and the landing position (m)
-# \param t_flight flight duration (s)
-def write_output(s, d_offset, t_flight):
-    outputfile = open("output.txt", "w")
-    print("s = ", end="", file=outputfile)
-    print(s, file=outputfile)
-    print("d_offset = ", end="", file=outputfile)
-    print(d_offset, file=outputfile)
-    print("t_flight = ", end="", file=outputfile)
-    print(t_flight, file=outputfile)
-    outputfile.close()
 
 filename = sys.argv[1]
 g = 9.8
@@ -115,4 +85,3 @@ t_flight = func_t_flight(v_launch, theta, g)
 p_land = func_p_land(v_launch, theta, g)
 d_offset = func_d_offset(p_target, p_land)
 s = func_s(p_target, epsilon, d_offset)
-write_output(s, d_offset, t_flight)

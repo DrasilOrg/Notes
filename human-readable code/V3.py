@@ -1,15 +1,27 @@
-# INTERNAL COMMENT
+# ## [$V_3$: Layered Phases + Library, Program Split + Documentation: Deliverable, maintainable, short-living software](./V3.py)
 #
-# Straight Line version with:
-# 1. Clarified units
-# 2. Special constants in variables bundled in a class
-# 3. New outputs: p_land and d_offset
-# 4. Sanity constraints on inputs
-# 5. Annotated variables
-# 6. Code organization using language-specific features (functions, classes,
-#    __name__)
-# 7. Idiomatic header w/ license information
-# 8. Backlinks to the SRS
+# $V_3$ refines $V_2$ in two ways:
+#
+# 1. *Splitting off a library.* The program is split in two (within-file, via
+#    `__name__` differentiation): an executable program and a library. The library
+#    is meant to be production-ready, publishable with full coverage, extensive
+#    documentation using conventional documentation software (`p[y]doc`).
+# 2. *Creating documentation.* Not included here, but is expected to be in a
+#    nearby `../SRS` folder, is Projectile's software requirements specification
+#    that includes derivations for the formulas used in the code. Additionally, it
+#    contains more background/context information about when the library should be
+#    used (i.e., when the SRS is applicable).
+#
+# Overall, $V_3$ is meant to maintainable specialty software well-suited for a
+# well-defined use-case. While not specifically intended to be publically
+# published, it is only a short few steps away from being so: 
+#
+# 1. A design specification (at least a vague one).
+# 2. Continuous integration scripts.
+# 3. Testing scripts.
+# 4. A `README` w/ usage examples.
+# 5. Installation documentation.
+# 6. License.
 
 """
 PROJECTILE MOTION
@@ -22,18 +34,6 @@ Approximate whether a projectile hits a target.
 import math
 
 #-------------------------------------------------------------------------------
-# CONSTANTS
-#-------------------------------------------------------------------------------
-
-class Constants:
-    """Physical and system-specific constants.
-    
-    See <file://../SRS/Index.html#Tab:Constants> for more information.
-    """
-    g = 9.8  # Gravity constant, conventional assumption: 9.8 m/s^2.
-    epsilon = 2.0  # A tolerance for hitting the target, 2% (of the total distance to the target).
-
-#-------------------------------------------------------------------------------
 # CALCULATION TOOLS
 #
 # Using kinematic model of projectile motion assuming constant gravity, no air
@@ -42,7 +42,7 @@ class Constants:
 # Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
 #-------------------------------------------------------------------------------
 
-def flight_time(v_launch, theta, g=Constants.g):
+def flight_time(v_launch, theta, g=9.8):
     """Calculate the projectile's total time in the air (s)
 
     Derived from <file://../SRS/Index.html#IM:flightDuration>.
@@ -51,7 +51,7 @@ def flight_time(v_launch, theta, g=Constants.g):
         v_launch (float): The initial launch velocity in m/s.
         theta (float): The launch angle in radians.
         g (float, optional): The acceleration due to gravity (m/s^2).
-                             Defaults to Constants.g.
+                             Defaults to 9.8 m/s^2.
     Returns:
         float: The total flight time in seconds.
     """
@@ -82,7 +82,7 @@ def landing_position(flight_time, v_launch, theta):
     return flight_time * v_launch * math.cos(theta)
 
 
-def analyze_shot(v_launch, theta, p_target, g=Constants.g, eps=Constants.epsilon):
+def analyze_shot(v_launch, theta, p_target, g=9.8):
     """Determines the outcome of the shot after running calculations.
 
     Derived from <file://../CodeSpec/Index.html#NFR:Outputs>.
@@ -92,31 +92,18 @@ def analyze_shot(v_launch, theta, p_target, g=Constants.g, eps=Constants.epsilon
         theta (float): The launch angle in radians.
         p_target (float): The target's distance in meters.
         g (float, optional): The acceleration due to gravity (m/s^2).
-                             Defaults to Constants.g.
-        eps (float, optional): The hit tolerance as a percentage (e.g., 2 for 2%).
-                               Defaults to Constants.epsilon.
+            Defaults to 9.8 m/s^2 (Earth approximation).
 
     Returns:
-        tuple: A tuple containing the flight time (s), landing position (m),
-               offset from target (m), and the outcome message (str).
+        tuple: A tuple containing the calculated flight time (s) and
+            landing position (m) of the projectile.
     """
     assert p_target > 0.0, "Failed constraint: target > 0m away"
-    assert 0 < eps < 100, "Failed constraint: epsilon must be between 0 and 100 %."
     
     t_flight = flight_time(v_launch, theta, g)
     p_land = landing_position(t_flight, v_launch, theta)
 
-    offset = p_land - p_target
-    relative_offset_pct = math.fabs(offset / p_target) * 100.0
-
-    if relative_offset_pct < eps:
-        message = "The target was hit."
-    elif offset < 0.0:
-        message = "The projectile fell short."
-    else:
-        message = "The projectile went long."
-
-    return t_flight, p_land, offset, message
+    return t_flight, p_land
 
 
 if __name__ == '__main__':
@@ -132,12 +119,4 @@ if __name__ == '__main__':
     # CALCULATIONS & ANALYSIS
     #---------------------------------------------------------------------------
 
-    t_flight, p_land, d_offset, output_message = analyze_shot(v_launch, theta, p_target)
-
-    #---------------------------------------------------------------------------
-    # OUTPUTS
-    #---------------------------------------------------------------------------
-
-    print("Time in flight (s):", t_flight)
-    print(f"Landed at {p_land:.2f}m, {d_offset:.2f}m away from target")
-    print(output_message)
+    t_flight, p_land = analyze_shot(v_launch, theta, p_target)

@@ -203,6 +203,8 @@ Whisky is the “base” version of Projectile that has the following:
     9. Explicit imports list (e.g., `from math import sin, cos, pi`) with language-specific formatting (e.g., alphabetical order for Python), no wildcard imports (e.g., `from math import *`), and using local unqualified imports (i.e., into local namespace).
     10. Uses the basic **float** type for all floating-point numbers.
     11. By default, constraints are all soft (i.e., disableable [by passing `-O` to Python](https://docs.python.org/3/using/cmdline.html#cmdoption-O)).
+    12. Policy for multi-line comments: use multi-line comment blocks if available.
+    13. Policy for long comments: do not wrap.
 
 ### Last-mile "Code → Artifacts" Variants
 
