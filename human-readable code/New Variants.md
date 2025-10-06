@@ -15,6 +15,11 @@
       6. [*Lima*](#lima)
       7. [*Drawer*](#drawer)
       8. [*Focus*](#focus)
+      9. [*Vicinity*](#vicinity)
+      10. [*Dane*](#dane)
+      11. [*Appletini*](#appletini)
+      12. [*Bottle*](#bottle)
+      13. [*Coffee*](#coffee)
    2. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
@@ -33,6 +38,19 @@
       15. [*Lychee*](#lychee)
       16. [*Nomad*](#nomad)
       17. [*Jester*](#jester)
+      18. [*Jackal*](#jackal)
+      19. [*Jericho*](#jericho)
+      20. [*Aztec*](#aztec)
+      21. [*Inca*](#inca)
+      22. [*Serial*](#serial)
+      23. [*Devious*](#devious)
+      24. [*Gerald*](#gerald)
+      25. [*Apiary*](#apiary)
+      26. [*Lemon*](#lemon)
+      27. [*Yuzu*](#yuzu)
+      28. [*Peach*](#peach)
+      29. [*Screech*](#screech)
+      30. [*Paperclip*](#paperclip)
    3. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
       1. [*Scenic*](#scenic)
       2. [*Oscar*](#oscar)
@@ -40,6 +58,7 @@
       4. [*Lazy*](#lazy)
       5. [*Constrained*](#constrained)
       6. [*Over-constrained*](#over-constrained)
+      7. [*Visual*](#visual)
    4. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
       2. [*Moon*](#moon)
@@ -65,6 +84,11 @@ flowchart LR
     mikey -- { fill hole with math.pi } --> lima{{Lima}}
     lychee -- { Google DocString function comments } --> drawer{{Drawer}}
     lychee -- { minimize import scope } --> focus{{Focus}}
+    jester -- { change all assertions into hard ones } --> vicinity{{Vicinity}}
+    apiary -- { incl. type information in DocString } --> dane{{Dane}}
+    dane -- { incl. Python-level type hints } --> appletini{{Appletini}}
+    appletini -- { incl. basic program meta-information in header } --> bottle{{Bottle}}
+    screech -- { incl. basic program meta-information in header } --> coffee{{Coffee}}
 
     amethyst -- { inline known values used exactly 1x from ICO → Code stage} --> pistachio{{Pistachio}}
     amethyst -- { inline known values used exactly 1x from SR → ICO PR stage } --> pistachio
@@ -87,6 +111,20 @@ flowchart LR
     apple -- { separate groups of related variables with whitespace } --> jumper{{Jumper}}
     jumper -- { encapsulate intermediate calculation logic in a function } --> lychee{{Lychee}}
     constrained -- { encapsulate intermediate calculation logic in a function } --> nomad{{Nomad}}
+    over_constrained -- { encapsulate intermediate calculation logic in a function } --> jester{{Jester}}
+    jester -- { hard error on input value constraint violations } --> jackal{{Jackal}}
+    lychee -- { guard script execution } --> jericho{{Jericho}}
+    lychee -- { minimize scope of theoretical constants (preferring optional params) } --> aztec{{Aztec}}
+    lychee -- { minimize scope of theoretical constants (preferring local vars) } --> inca{{Inca}}
+    lychee -- { move theoretical constants to 1 class } --> serial{{Serial}}
+    aztec -- { use theoretical const. constraints on optional params } --> devious{{Devious}}
+    drawer -- { gen. description for `calc` } --> gerald{{Gerald}}
+    gerald -- { add cxt info. to desc. of `calc` } --> apiary{{Apiary}}
+    apiary -- { organizes code into sections } --> lemon{{Lemon}}
+    lemon -- { incl. input verification code } --> yuzu{{Yuzu}}
+    yuzu -- { incl. unit information in var. desc.s } --> peach{{Peach}}
+    peach -- { incl. type information in var. desc.s } --> screech{{Screech}}
+    yuzu -- { prominent code section headers } --> paperclip{{Paperclip}}
 
     whisky -- { theoretical constants are generic program constants } --> scenic{{Scenic}}
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
@@ -94,6 +132,7 @@ flowchart LR
     amethyst -- { order instructions by dependency } --> lazy{{Lazy}}
     apple -- { add constraints on inputs } --> constrained{{Constrained}}
     constrained -- { add constraints on outputs } --> over_constrained{{Over-constrained}}
+    scenic -- { variable renaming for readability } --> visual{{Visual}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
     amethyst -- { specification choice: g = 0.1624 } --> moon{{Moon}}
@@ -151,6 +190,9 @@ Whisky is the “base” version of Projectile that has the following:
             3. Non-alphanumeric characters (except underscores) removed.
             4. Duplicate symbols made unique by appending `_1`, `_2`, etc.
         2. Places **2 blank lines** before and after function definitions.
+        3. Does **not** guard executable programs with: `if __name__ == "__main__":` blocks.
+        4. For single-line blocks, always tries to inline rather than indent on a new line (e.g., `if c: x` instead of `if c:\n\tx`, similar for function definitions, class definitions, for loops, etc.).
+        5. Prefers using single quotation marks for strings rather than double quotes.
     2. Permits **Unicode** characters for variable names where appropriate (e.g., `Θ` for launch angle). Up to discretion of programming language support as well.
     3. Uses **4 spaces** for indentation.
     4. Uses **soft line length limit of 80 characters** (up to **85** characters before hard line breaks).
@@ -370,7 +412,155 @@ s = 17.0  # Launch velocity
 t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
 ```
 
-Vicinity is an extension of [Jester](#jester) that makes all constraint enforcement code throw hard errors on ailure (i.e., not disableable)
+Vicinity is an extension of [Jester](#jester) that makes all constraint enforcement code throw hard errors on failure (i.e., not disableable).
+
+#### *Dane*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    """Calculates a projectile's landing position and flight time given
+    an initial launch velocity and launch angle of the projectile from
+    a launcher on ground level.
+
+    Args:
+        s (float): Launch velocity
+        Θ (float): Launch angle
+
+    Returns:
+        t  (float): Flight time
+        pl (float): Landing position
+    """
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Dane is an extension of [Apiary](#apiary) that includes type information generated function comments.
+
+#### *Appletini*
+
+```python
+from math import sin, cos
+
+g: float = 9.8  # Acceleration due to gravity to 2 decimal places
+π: float = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s: float, Θ: float) -> tuple[float, float]:
+    """Calculates a projectile's landing position and flight time given
+    an initial launch velocity and launch angle of the projectile from
+    a launcher on ground level.
+
+    Args:
+        s (float): Launch velocity
+        Θ (float): Launch angle
+
+    Returns:
+        t  (float): Flight time
+        pl (float): Landing position
+    """
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s: float = 17.0  # Launch velocity
+Θ: float = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Appletini is an extension of [Dane](#dane) that includes type information in the Python code as well. Note that the last line does not include a type hint because Python does not support type hints on pattern-match-based variable binds.
+
+#### *Bottle*
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+
+g: float = 9.8  # Acceleration due to gravity to 2 decimal places
+π: float = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s: float, Θ: float) -> tuple[float, float]:
+    """Calculates a projectile's landing position and flight time given
+    an initial launch velocity and launch angle of the projectile from
+    a launcher on ground level.
+
+    Args:
+        s (float): Launch velocity
+        Θ (float): Launch angle
+
+    Returns:
+        t  (float): Flight time
+        pl (float): Landing position
+    """
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s: float = 17.0  # Launch velocity
+Θ: float = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Bottle is an extension of [Appletini](#appletini) that includes basic program meta-information in the file header.
+
+#### *Coffee*
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+# Imports
+from math import sin, cos
+
+# Constants
+g = 9.8  # Acceleration due to gravity to 2 decimal places, m/s^2 (float)
+π = 3.1415926535  # Approximation of π to 10 decimal places, unitless (ratio of circumference to diameter; float)
+
+# Knowns ("inputs")
+s = 17.0  # Launch velocity, m/s (float)
+Θ = π / 4  # Launch angle, rad (float)
+
+# Verify inputs
+if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
+if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
+
+# Calculations
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time, s (float)
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile, m (float)
+```
+
+Coffee is an extension of [Screen](#screech) that includes basic program meta-information in the file header.
 
 ### "ICO Program Requirements → Code" Variants
 
@@ -558,7 +748,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
 
-t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time
 d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
 ```
 
@@ -643,6 +833,369 @@ t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projecti
 
 Jester is an extension of [Over Constrained](#over-constrained) that introduces a single-calculation-function structure similar to [Lychee](#lychee) and [Nomad](#nomad).
 
+#### *Jackal*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    if s <= 0: raise ValueError("Launch velocity must be positive")
+    if 0 >= Θ or Θ >= π / 2: raise ValueError("Launch angle must be between 0 and π/2")
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    assert t > 0, "Flight time calculation failed, t must be positive"
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    assert d > 0, "Horizontal distance calculation failed, d must be positive"
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Jackal is an extension of [Jester](#jester) that switches to using hard errors for known value violations, leaving soft errors on unknown variable calculations.
+
+#### *Jericho*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+if __name__ == '__main__':
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+    t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Jericho is a variant of [Lychee](#lychee) that guards script code execution (i.e., anything other than definitions) with the conventional block: `if __name__ == '__main__': ...`.
+
+#### *Aztec*
+
+```python
+from math import sin, cos
+
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ, g = 9.8):
+    # s: Launch velocity
+    # Θ: Launch angle
+    # g: Acceleration due to gravity to 2 decimal places (optional)
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Aztec is an extension of [Lychee](#lychee) that minimizes scope of theoretical constants, preferring optional parameters of the monolithic calculation function for constants only used in the function body.
+
+#### *Inca*
+
+```python
+from math import sin, cos
+
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    g = 9.8  # Acceleration due to gravity to 2 decimal places
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Inca is an extension of [Lychee](#lychee) that minimizes scope of theoretical constants, preferring duplicated local variables where necessary.
+
+#### *Serial*
+
+```python
+from math import sin, cos
+
+
+class Constants:
+    g = 9.8  # Acceleration due to gravity to 2 decimal places
+    π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ, ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    t = 2.0 * s * sin(Θ) / Constants.g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = Constants.π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Serial is an extension of [Lychee](#lychee) that moves all theoretical constants to a single class, `Constants`, containing all in alphabetical order.
+
+#### *Devious*
+
+```python
+from math import sin, cos
+
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ, g = 9.8):
+    # s: Launch velocity
+    # Θ: Launch angle
+    # g: Acceleration due to gravity to 2 decimal places (optional)
+    assert g > 0.0, "Gravity must be strictly positive."
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Devious is an extension of [Aztec](#aztec) that makes use of domain knowledge on gravity to impose an input constraint on the optional parameter.
+
+#### *Gerald*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    """Calculates a projectile's landing position and flight time given an
+    initial launch velocity and launch angle.
+
+    Args:
+        s: Launch velocity
+        Θ: Launch angle
+
+    Returns:
+        t: Flight time
+        pl: Landing position
+    """
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Gerald is an extension of [Drawer](#drawer) that builds a description for the calculation function. Note: Google DocString format dictates hard wrapping docstrings at character 72.
+
+#### *Apiary*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+def calc(s, Θ):
+    """Calculates a projectile's landing position and flight time given
+    an initial launch velocity and launch angle of the projectile from
+    a launcher on ground level.
+
+    Args:
+        s: Launch velocity
+        Θ: Launch angle
+
+    Returns:
+        t: Flight time
+        pl: Landing position
+    """
+
+    t = 2.0 * s * sin(Θ) / g  # Flight time
+    d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+    return (t, d)
+
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+t, d = calc(s, Θ)  # Flight time, Horizontal distance travelled by the projectile
+```
+
+Apiary is an extension of [Gerald](#gerald) that gives a bit more context information about the input variables to `calc`.
+
+#### *Lemon*
+
+```python
+# Imports
+from math import sin, cos
+
+# Constants
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+# Knowns
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+
+# Calculations
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
+
+Lemon is an extension of [Jumper](#jumper) that organizes code into sections broken up by comment-based breaks and whitespace.
+
+#### *Yuzu*
+
+```python
+# Imports
+from math import sin, cos
+
+# Constants
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+# Knowns ("inputs")
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+
+# Verify inputs
+if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
+if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
+
+# Calculations
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
+
+Yuzu is an extension of [Lemon](#lemon) that includes input-verification, despite them not being very useful in this program -- they're more like safeguards.
+
+#### *Peach*
+
+```python
+# Imports
+from math import sin, cos
+
+# Constants
+g = 9.8  # Acceleration due to gravity to 2 decimal places, m/s^2
+π = 3.1415926535  # Approximation of π to 10 decimal places, unitless (ratio of circumference to diameter)
+
+# Knowns ("inputs")
+s = 17.0  # Launch velocity, m/s
+Θ = π / 4  # Launch angle, rad
+
+# Verify inputs
+if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
+if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
+
+# Calculations
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time, s
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile, m
+```
+
+Peach is an extension of [Yuzu](#yuzu) that includes unit information in generated variable descriptions.
+
+#### *Screech*
+
+```python
+# Imports
+from math import sin, cos
+
+# Constants
+g = 9.8  # Acceleration due to gravity to 2 decimal places, m/s^2 (float)
+π = 3.1415926535  # Approximation of π to 10 decimal places, unitless (ratio of circumference to diameter; float)
+
+# Knowns ("inputs")
+s = 17.0  # Launch velocity, m/s (float)
+Θ = π / 4  # Launch angle, rad (float)
+
+# Verify inputs
+if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
+if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
+
+# Calculations
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time, s (float)
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile, m (float)
+```
+
+Screech is an extension of [Peach](#peach) that adds type information in generated variable descriptions.
+
+Note: There is a subtle but important thing here: this is an "ICO Prog. Req. → Code" level change, but it adds Python-level type information. How? That should be done by including the "code-type" that is then rendered into the Python-type.
+
+#### *Paperclip*
+
+```python
+
+#-------------------------------------------------------------------------------
+# IMPORTS
+#-------------------------------------------------------------------------------
+
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# KNOWNS ("INPUTS")
+#-------------------------------------------------------------------------------
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+
+#-------------------------------------------------------------------------------
+# VERIFY INPUTS
+#-------------------------------------------------------------------------------
+if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
+if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
+
+#-------------------------------------------------------------------------------
+# CALCULATIONS
+#-------------------------------------------------------------------------------
+t = 2.0 * s * sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
+
+Paperclip is an extension of [Yuzu](#yuzu) that uses more prominent comment to break sections.
 
 ### "Software Requirements → ICO Program Requirements" Choices
 
@@ -736,6 +1289,20 @@ Over Constrained is an extension of [Constrained](#constrained) that exposes the
 
 1. Time of flight $t$ must be positive.
 2. Horizontal distance travelled $d$ must be positive.
+
+#### *Visual*
+
+```python
+from math import sin, cos
+
+gravity = 9.8
+pi = 3.1415926535
+launch_angle = pi / 4
+launch_velocity = 17.0
+travel_distance = 2.0 * launch_velocity ** 2.0 * sin(launch_angle) * cos(launch_angle) / gravity
+```
+
+Visual is an extension of [Scenic](#scenic) that provides a dictionary for renaming mathematical variables with more human-readable variable names for code generation/reading.
 
 ### Specification Choices
 
