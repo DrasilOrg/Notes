@@ -74,6 +74,11 @@
       5. [*Constrained*](#constrained)
       6. [*Over-constrained*](#over-constrained)
       7. [*Visual*](#visual)
+      8. [*Otis*](#otis)
+         1. [`models/__init__.py`](#models__init__py)
+         2. [`models/point2d.py`](#modelspoint2dpy)
+         3. [`main.py`](#mainpy-1)
+         4. [`formulas.py`](#formulaspy-1)
    4. [Specification Choices](#specification-choices)
       1. [*Havana*](#havana)
       2. [*Moon*](#moon)
@@ -149,7 +154,7 @@ flowchart LR
     geek -- { incl. input verification code } --> cupcake{{Cupcake}}
     cupcake -- { 2x incl. input verification code using a function } --> lentil{{Lentil}}
     lentil -- { move sections to separate files } --> penny{{Penny}}
-    penny -- { mark constants file as a "data file" } --> qita{{Qita}}
+    penny -- { mark constants file as a 'data file' } --> qita{{Qita}}
 
     whisky -- { theoretical constants are generic program constants } --> scenic{{Scenic}}
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
@@ -158,6 +163,7 @@ flowchart LR
     apple -- { add constraints on inputs } --> constrained{{Constrained}}
     constrained -- { add constraints on outputs } --> over_constrained{{Over-constrained}}
     scenic -- { variable renaming for readability } --> visual{{Visual}}
+    penny -- { swap output variable from horizontal distance to landing position } --> otis{{Otis}}
 
     amethyst -- { specification choice: g = 9.7803 } --> havana{{Havana}}
     amethyst -- { specification choice: g = 0.1624 } --> moon{{Moon}}
@@ -2045,6 +2051,130 @@ travel_distance = 2.0 * launch_velocity ** 2.0 * sin(launch_angle) * cos(launch_
 ```
 
 Visual is an extension of [Scenic](#scenic) that provides a dictionary for renaming mathematical variables with more human-readable variable names for code generation/reading.
+
+#### *Otis*
+
+##### `models/__init__.py`
+
+```python
+from .point2d import Point2D
+
+__all__ = ['Point2D']
+```
+
+##### `models/point2d.py`
+
+```python
+class Point2D:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+##### `main.py`
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from models import Point2D
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def check_inputs(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#Tab:DataConstraints>.
+    
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+
+def run_projectile():
+    # Calculates the flight time and landing position of a projectile fired
+    # given launch velocity and launch angle.
+    #
+    # Derived from <file://../SRS/Index.html>.
+
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+    p = Point2D(0, 0)
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    check_inputs(s, Θ)
+    t = flight_time(s, Θ)
+    lp = landing_position(p, s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+##### `formulas.py`
+
+```python
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#
+# Using kinematic model of projectile motion assuming constant gravity, no air
+# resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:flightDuration>.
+
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates landing position of the projectile
+def landing_position(pt, s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:landingPos>.
+    
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return Point2D(pt.x + s * t * cos(Θ), pt.y)
+```
+
+Otis is an extension of Penny that uses a 2D point type in the formulas to calculate the final landing position rather than the final horizontal distance travelled, returning closer to the original Projectile. This is one change because the "real change" is a swap of the output variable from distance travelled to landing position.
 
 ### Specification Choices
 
