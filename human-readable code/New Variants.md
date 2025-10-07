@@ -2,8 +2,8 @@
 
 1. [Graph View of Variants](#graph-view-of-variants)
 2. [Variants](#variants)
-      1. [*Whisky*](#whisky)
-   1. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
+   1. [*Whisky*](#whisky)
+   2. [Last-mile "Code → Artifacts" Variants](#last-mile-code--artifacts-variants)
       1. [*Amethyst*](#amethyst)
       2. [*Proxima*](#proxima)
       3. [*Deceiver*](#deceiver)
@@ -21,7 +21,7 @@
       12. [*Bottle*](#bottle)
       13. [*Coffee*](#coffee)
       14. [*Geek*](#geek)
-   2. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
+   3. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
       3. [*Hotel*](#hotel)
@@ -66,7 +66,7 @@
           3. [`constants.py`](#constantspy)
       40. [*Qita*](#qita)
           1. [`constants.py`](#constantspy-1)
-   3. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
+   4. ["Software Requirements Specification → ICO Program Requirements" Choices](#software-requirements-specification--ico-program-requirements-choices)
       1. [*Scenic*](#scenic)
       2. [*Oscar*](#oscar)
       3. [*Mikey*](#mikey)
@@ -74,12 +74,7 @@
       5. [*Constrained*](#constrained)
       6. [*Over-constrained*](#over-constrained)
       7. [*Visual*](#visual)
-      8. [*Otis*](#otis)
-         1. [`models/__init__.py`](#models__init__py)
-         2. [`models/point2d.py`](#modelspoint2dpy)
-         3. [`main.py`](#mainpy-1)
-         4. [`formulas.py`](#formulaspy-1)
-   4. [Specification Choices](#specification-choices)
+   5. [“Domain Knowledge → Software Requirements Specification” Choices](#domain-knowledge--software-requirements-specification-choices)
       1. [*Havana*](#havana)
       2. [*Moon*](#moon)
       3. [*Spike*](#spike)
@@ -87,6 +82,11 @@
       5. [*Apple*](#apple)
          1. [*Apple V1*](#apple-v1)
          2. [*Apple V2*](#apple-v2)
+      6. [*Otis*](#otis)
+         1. [`models/__init__.py`](#models__init__py)
+         2. [`models/point2d.py`](#modelspoint2dpy)
+         3. [`main.py`](#mainpy-1)
+         4. [`formulas.py`](#formulaspy-1)
 
 ## Graph View of Variants
 
@@ -180,7 +180,7 @@ flowchart LR
 
 ## Variants
 
-#### *Whisky*
+### *Whisky*
 
 ```python
 from math import sin, cos
@@ -1945,7 +1945,7 @@ g = 9.8           # Acceleration due to gravity to 2 decimal places
 
 Qita is an extension of [Penny](#penny) that adds connotation to `constants.py` file: data file. I'm not including the other files because they are unchanged. By default, we expect that “data files” have their comments aligned (or perhaps organized differently -- the data that passes to the code generator does not necessarily need to be a series of assignments, but can be something that the code generator can readily use to generate a table of values or ...).
 
-### "Software Requirements → ICO Program Requirements" Choices
+### "Software Requirements Specification → ICO Program Requirements" Choices
 
 #### *Scenic*
 
@@ -2051,6 +2051,88 @@ travel_distance = 2.0 * launch_velocity ** 2.0 * sin(launch_angle) * cos(launch_
 ```
 
 Visual is an extension of [Scenic](#scenic) that provides a dictionary for renaming mathematical variables with more human-readable variable names for code generation/reading.
+
+### “Domain Knowledge → Software Requirements Specification” Choices
+
+#### *Havana*
+
+```python
+from math import sin, cos
+
+g = 9.7803  # Acceleration due to gravity near equator to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
+
+#### *Moon*
+
+```python
+from math import sin, cos
+
+g = 0.1624  # Acceleration due to gravity on the moon to 3 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Moon is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $0.1624~m/s^2$ (gravity on Moon).
+
+Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
+
+#### *Spike*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Spike is an extension to [Amethyst](#amethyst) that introduces a new specification-level variable: flight time. Note that this does not change the code, as flight time is not used in the calculation of horizontal distance travelled.
+
+#### *Lamp*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
+```
+
+Lamp is an extension of [Spike](#spike) that designates flight time as an output variable.
+
+#### *Apple*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+Θ = π / 4  # Launch angle
+s = 17.0  # Launch velocity
+t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
+d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
+```
+
+##### *Apple V1*
+
+Apple is an extension of [Lamp](#lamp) that *adds* a new formula for travel distance that uses flight time.
+
+##### *Apple V2*
+
+Apple may also be viewed as an extension of [Spike](#spike) does the same.
 
 #### *Otis*
 
@@ -2175,85 +2257,3 @@ def landing_position(pt, s, Θ):
 ```
 
 Otis is an extension of Penny that uses a 2D point type in the formulas to calculate the final landing position rather than the final horizontal distance travelled, returning closer to the original Projectile. This is one change because the "real change" is a swap of the output variable from distance travelled to landing position.
-
-### Specification Choices
-
-#### *Havana*
-
-```python
-from math import sin, cos
-
-g = 9.7803  # Acceleration due to gravity near equator to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Havana is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $9.7803~m/s^2$ (gravity near the equator). Source: https://en.wikipedia.org/wiki/Standard_gravity#Gravity_on_Earth .
-
-#### *Moon*
-
-```python
-from math import sin, cos
-
-g = 0.1624  # Acceleration due to gravity on the moon to 3 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Moon is an extension of [Amethyst](#amethyst) that changes the specification-level choice for the acceleration due to gravity constant to be $0.1624~m/s^2$ (gravity on Moon).
-
-Source: https://en.wikipedia.org/wiki/Gravitation_of_the_Moon
-
-#### *Spike*
-
-```python
-from math import sin, cos
-
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Spike is an extension to [Amethyst](#amethyst) that introduces a new specification-level variable: flight time. Note that this does not change the code, as flight time is not used in the calculation of horizontal distance travelled.
-
-#### *Lamp*
-
-```python
-from math import sin, cos
-
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
-d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
-```
-
-Lamp is an extension of [Spike](#spike) that designates flight time as an output variable.
-
-#### *Apple*
-
-```python
-from math import sin, cos
-
-g = 9.8  # Acceleration due to gravity to 2 decimal places
-π = 3.1415926535  # Approximation of π to 10 decimal places
-Θ = π / 4  # Launch angle
-s = 17.0  # Launch velocity
-t = 2.0 * s * math.sin(Θ) / 9.8  # Flight time
-d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
-```
-
-##### *Apple V1*
-
-Apple is an extension of [Lamp](#lamp) that *adds* a new formula for travel distance that uses flight time.
-
-##### *Apple V2*
-
-Apple may also be viewed as an extension of [Spike](#spike) does the same.
