@@ -20,6 +20,7 @@
       11. [*Appletini*](#appletini)
       12. [*Bottle*](#bottle)
       13. [*Coffee*](#coffee)
+      14. [*Geek*](#geek)
    2. ["ICO Program Requirements → Code" Variants](#ico-program-requirements--code-variants)
       1. [*Pistachio*](#pistachio)
       2. [*Synergy*](#synergy)
@@ -51,6 +52,20 @@
       28. [*Peach*](#peach)
       29. [*Screech*](#screech)
       30. [*Paperclip*](#paperclip)
+      31. [*Sabre*](#sabre)
+      32. [*Tooth*](#tooth)
+      33. [*Green*](#green)
+      34. [*Monstera*](#monstera)
+      35. [*Jambalaya*](#jambalaya)
+      36. [*Pomegranate*](#pomegranate)
+      37. [*Cupcake*](#cupcake)
+      38. [*Lentil*](#lentil)
+      39. [*Penny*](#penny)
+          1. [`main.py`](#mainpy)
+          2. [`formulas.py`](#formulaspy)
+          3. [`constants.py`](#constantspy)
+      40. [*Qita*](#qita)
+          1. [`constants.py`](#constantspy-1)
    3. ["Software Requirements → ICO Program Requirements" Choices](#software-requirements--ico-program-requirements-choices)
       1. [*Scenic*](#scenic)
       2. [*Oscar*](#oscar)
@@ -89,6 +104,7 @@ flowchart LR
     dane -- { incl. Python-level type hints } --> appletini{{Appletini}}
     appletini -- { incl. basic program meta-information in header } --> bottle{{Bottle}}
     screech -- { incl. basic program meta-information in header } --> coffee{{Coffee}}
+    pomegranate -- { incl. basic program meta-information in header } --> geek{{Geek}}
 
     amethyst -- { inline known values used exactly 1x from ICO → Code stage} --> pistachio{{Pistachio}}
     amethyst -- { inline known values used exactly 1x from SR → ICO PR stage } --> pistachio
@@ -125,6 +141,15 @@ flowchart LR
     yuzu -- { incl. unit information in var. desc.s } --> peach{{Peach}}
     peach -- { incl. type information in var. desc.s } --> screech{{Screech}}
     yuzu -- { prominent code section headers } --> paperclip{{Paperclip}}
+    jumper -- { split calculations into functions } --> sabre{{Sabre}}
+    sabre -- { organize code into sections } --> tooth{{Tooth}}
+    tooth -- { mark section breaks with comments } --> green{{Green}}
+    green -- { guard script execution } --> monstera{{Monstera}}
+    monstera -- { move core logic into a function } --> jambalaya{{Jambalaya}}
+    geek -- { incl. input verification code } --> cupcake{{Cupcake}}
+    cupcake -- { 2x incl. input verification code using a function } --> lentil{{Lentil}}
+    lentil -- { move sections to separate files } --> penny{{Penny}}
+    penny -- { mark constants file as a "data file" } --> qita{{Qita}}
 
     whisky -- { theoretical constants are generic program constants } --> scenic{{Scenic}}
     amethyst -- { render unit info in variable descriptions } --> oscar{{Oscar}}
@@ -564,6 +589,89 @@ d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile, m (float
 
 Coffee is an extension of [Screen](#screech) that includes basic program meta-information in the file header.
 
+#### *Geek*
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#
+# Using kinematic model of projectile motion assuming constant gravity, no air
+# resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:flightDuration>.
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:landingPos>.
+
+    return s * t * cos(Θ)
+
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def run_projectile():
+    # Calculates the flight time and landing position of a projectile fired
+    # given launch velocity and launch angle.
+    #
+    # Derived from <file://../SRS/Index.html>.
+
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+Geek is an extension of [Pomegranate](#pomegranate) that includes basic program meta-information in the file header.
+
 ### "ICO Program Requirements → Code" Variants
 
 #### *Pistachio*
@@ -750,7 +858,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 Θ = π / 4  # Launch angle
 s = 17.0  # Launch velocity
 
-t = 2.0 * s * sin(Θ) / 9.8  # Flight time
+t = 2.0 * s * sin(Θ) / g  # Flight time
 d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
 ```
 
@@ -1077,7 +1185,7 @@ s = 17.0  # Launch velocity
 Θ = π / 4  # Launch angle
 
 # Calculations
-t = 2.0 * s * sin(Θ) / 9.8  # Flight time
+t = 2.0 * s * sin(Θ) / g  # Flight time
 d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
 ```
 
@@ -1102,7 +1210,7 @@ if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
 if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
 
 # Calculations
-t = 2.0 * s * sin(Θ) / 9.8  # Flight time
+t = 2.0 * s * sin(Θ) / g  # Flight time
 d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
 ```
 
@@ -1127,7 +1235,7 @@ if s <= 0.0: raise ValueError("Velocity must be greater 0.0.")
 if 0.0 >= Θ or Θ >= math.pi / 2.0: raise ValueError("Launch angle must be within (0, pi/2)")
 
 # Calculations
-t = 2.0 * s * sin(Θ) / 9.8  # Flight time, s
+t = 2.0 * s * sin(Θ) / g  # Flight time, s
 d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile, m
 ```
 
@@ -1198,6 +1306,638 @@ d = s * t * cos(Θ)  # Horizontal distance travelled by the projectile
 ```
 
 Paperclip is an extension of [Yuzu](#yuzu) that uses more prominent comment to break sections.
+
+#### *Sabre*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return s * t * cos(Θ)
+
+
+t = flight_time(s, Θ)
+d = distance_travelled(s, Θ)
+```
+
+Sabre is an extension of [Jumper](#jumper) that moves calculation expressions into reusable functions.
+
+#### *Tooth*
+
+```python
+from math import sin, cos
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return s * t * cos(Θ)
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+
+t = flight_time(s, Θ)
+d = distance_travelled(s, Θ)
+```
+
+Tooth is an extension of [Sabre](#sabre) that organizes code by sections: theoretical constants, calculators, knowns, core logic/main program.
+
+#### *Green*
+
+```python
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return s * t * cos(Θ)
+
+
+#-------------------------------------------------------------------------------
+# KNOWNS
+#-------------------------------------------------------------------------------
+
+s = 17.0  # Launch velocity
+Θ = π / 4  # Launch angle
+
+#-------------------------------------------------------------------------------
+# MAIN PROGRAM
+#-------------------------------------------------------------------------------
+
+t = flight_time(s, Θ)
+d = distance_travelled(s, Θ)
+```
+
+Green is an extension of [Tooth](#tooth) that adds comments to clearly differentiate the sections of code.
+
+#### *Monstera*
+
+```python
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return s * t * cos(Θ)
+
+
+if __name__ == '__main__':
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+```
+
+Monstera is an extension of [Green](#green) that guards the main program to ensure the program is only run if intended.
+
+#### *Jambalaya*
+
+```python
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+
+    return s * t * cos(Θ)
+
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def run_projectile():
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+Jambalaya is an extension of [Monstera](#monstera) that moves the main program to a function.
+
+#### *Pomegranate*
+
+```python
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#
+# Using kinematic model of projectile motion assuming constant gravity, no air
+# resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:flightDuration>.
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:landingPos>.
+
+    return s * t * cos(Θ)
+
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def run_projectile():
+    # Calculates the flight time and landing position of a projectile fired
+    # given launch velocity and launch angle.
+    #
+    # Derived from <file://../SRS/Index.html>.
+
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+Pomegranate is an extension of [Jambalaya](#jambalaya) that adds some basic background information to all functions, formulas, and the core program meaning.
+
+
+#### *Cupcake*
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#
+# Using kinematic model of projectile motion assuming constant gravity, no air
+# resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:flightDuration>.
+
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:landingPos>.
+
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return s * t * cos(Θ)
+
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def run_projectile():
+    # Calculates the flight time and landing position of a projectile fired
+    # given launch velocity and launch angle.
+    #
+    # Derived from <file://../SRS/Index.html>.
+
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+Cupcake is an extension of [Geek](#geek) that includes constraint checks in formula functions.
+
+#### *Lentil*
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#
+# Using kinematic model of projectile motion assuming constant gravity, no air
+# resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:flightDuration>.
+
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:landingPos>.
+    
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return s * t * cos(Θ)
+
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def check_inputs(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#Tab:DataConstraints>.
+    
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+
+def run_projectile():
+    # Calculates the flight time and landing position of a projectile fired
+    # given launch velocity and launch angle.
+    #
+    # Derived from <file://../SRS/Index.html>.
+
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    check_inputs(s, Θ)
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+Lentil is an extension of [Cupcake](#cupcake) that includes constraint checks using a function.
+
+#### *Penny*
+
+##### `main.py`
+
+```python
+"""PROJECTILE MOTION
+
+Approximate simple projectile motion.
+"""
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+#-------------------------------------------------------------------------------
+# CORE LOGIC
+#-------------------------------------------------------------------------------
+
+
+def check_inputs(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#Tab:DataConstraints>.
+    
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+
+def run_projectile():
+    # Calculates the flight time and landing position of a projectile fired
+    # given launch velocity and launch angle.
+    #
+    # Derived from <file://../SRS/Index.html>.
+
+    #---------------------------------------------------------------------------
+    # KNOWNS
+    #---------------------------------------------------------------------------
+
+    s = 17.0  # Launch velocity
+    Θ = π / 4  # Launch angle
+
+    #---------------------------------------------------------------------------
+    # MAIN PROGRAM
+    #---------------------------------------------------------------------------
+
+    check_inputs(s, Θ)
+    t = flight_time(s, Θ)
+    d = distance_travelled(s, Θ)
+
+
+if __name__ == '__main__':
+    run_projectile()
+```
+
+##### `formulas.py`
+
+```python
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+
+#-------------------------------------------------------------------------------
+# FORMULAS
+#
+# Using kinematic model of projectile motion assuming constant gravity, no air
+# resistance, and point mass.
+#
+# Derived from <file://../SRS/Index.html#Sec:InstanceModels>.
+#-------------------------------------------------------------------------------
+
+
+# Calculates flight time
+def flight_time(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:flightDuration>.
+
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return 2.0 * s * sin(Θ) / g
+
+
+# Calculates horizontal distance travelled by the projectile
+def distance_travelled(s, Θ):
+    # s: Launch velocity
+    # Θ: Launch angle
+    #
+    # Derived from <file://../SRS/Index.html#IM:landingPos>.
+    
+    assert s > 0, "Launch velocity must be positive"
+    assert 0 < Θ < π / 2, "Launch angle must be between 0 and π/2"
+
+    return s * t * cos(Θ)
+```
+
+##### `constants.py`
+
+```python
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8  # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+```
+
+Penny is an extension of [Lentil](#lentil) that splits up the code into 3 files: main, formulas, and constants.
+
+#### *Qita*
+
+##### `constants.py`
+
+```python
+__authors__ = ["Samuel J. Crawford", "Brooks MacLachlan", "W. Spencer Smith"]
+__contact__ = "{craw.., machl.., smiths}@mcmaster.ca"
+__date__ = "January 1st, 2019"
+__license__ = "GPLv3-or-later"
+
+from math import sin, cos
+#-------------------------------------------------------------------------------
+# CONSTANTS
+#-------------------------------------------------------------------------------
+
+g = 9.8           # Acceleration due to gravity to 2 decimal places
+π = 3.1415926535  # Approximation of π to 10 decimal places
+```
+
+Qita is an extension of [Penny](#penny) that adds connotation to `constants.py` file: data file. I'm not including the other files because they are unchanged. By default, we expect that “data files” have their comments aligned (or perhaps organized differently -- the data that passes to the code generator does not necessarily need to be a series of assignments, but can be something that the code generator can readily use to generate a table of values or ...).
 
 ### "Software Requirements → ICO Program Requirements" Choices
 

@@ -2,12 +2,11 @@
 
 ## TODOs
 
-1. Work towards original $V_3$.
-2. Write meaningful descriptions of each variant.
-3. We should also have a file called "Variabilities.md" that just documents
+1. Write meaningful descriptions of each variant.
+2. We should also have a file called "Variabilities.md" that just documents
    variabilities, indexed by which variant is applied to, to obtain the other
    variant.
-4. We might also want NecessaryInformation.md that documents what information we
+3. We might also want NecessaryInformation.md that documents what information we
    need to have present to be able to generate each variant as output.
 
 ## Questions
