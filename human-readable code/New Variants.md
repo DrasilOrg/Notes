@@ -151,6 +151,7 @@ flowchart LR
     tooth -- { mark section breaks with comments } --> green{{Green}}
     green -- { guard script execution } --> monstera{{Monstera}}
     monstera -- { move core logic into a function } --> jambalaya{{Jambalaya}}
+    jambalaya -- { basic back info. } --> pomegranate{{Pomegranate}}
     geek -- { incl. input verification code } --> cupcake{{Cupcake}}
     cupcake -- { 2x incl. input verification code using a function } --> lentil{{Lentil}}
     lentil -- { move sections to separate files } --> penny{{Penny}}
@@ -1333,15 +1334,16 @@ def flight_time(s, Θ):
 
 
 # Calculates horizontal distance travelled by the projectile
-def distance_travelled(s, Θ):
+def distance_travelled(s, Θ, t):
     # s: Launch velocity
     # Θ: Launch angle
+    # t: Flight time
 
     return s * t * cos(Θ)
 
 
 t = flight_time(s, Θ)
-d = distance_travelled(s, Θ)
+d = distance_travelled(s, Θ, t)
 ```
 
 Sabre is an extension of [Jumper](#jumper) that moves calculation expressions into reusable functions.
@@ -1992,7 +1994,7 @@ g = 9.8  # Acceleration due to gravity to 2 decimal places
 d = 2.0 * s ** 2.0 * sin(Θ) * cos(Θ) / g  # Horizontal distance travelled by the projectile
 ```
 
-Lazy is an extension of [Amethyst](#amethyst) that begins orders program instructions in the order they are needed to compute the final output variable(s). For example, here, `d` is the only "output" variable, so it is placed last, and the instructions before it are all those needed to compute `d`, in approximately left-to-right, top-to-bottom order.
+Lazy is an extension of [Amethyst](#amethyst) that orders program instructions in the order they are needed to compute the final output variable(s). For example, here, `d` is the only “output” variable, so it is placed last, and the instructions before it are all those needed to compute `d`, in approximately left-to-right, top-to-bottom order.
 
 #### *Constrained*
 
