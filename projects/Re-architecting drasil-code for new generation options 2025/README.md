@@ -27,6 +27,8 @@ In progress.
    variant.
 3. We might also want NecessaryInformation.md that documents what information we
    need to have present to be able to generate each variant as output.
+4. Document what all of Drasil's packages are for (fill in
+   [`DRASIL'S-PACKAGES.md`](./notes/DRASIL'S-PACKAGES.md)).
 
 ## Questions
 
