@@ -438,7 +438,8 @@ drasil-code/lib/Language/Drasil/Mod.hs
 
 <summary><code>drasil-docLang</code></summary>
 
-* Finding all `ConceptInstance`s belonging to specific "single domains."
+* Finding all `ConceptInstance`s belonging to a specific *sole* "concept
+  domain."
 * Building `Sentence`-based references to rendered chunks.
 * For finding what chunks depend on others (this is also in conjunction with
   reliance on `drasil-system`).
@@ -782,7 +783,7 @@ drasil-website/lib/Drasil/Website/Body.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 * 
 
@@ -897,7 +898,7 @@ drasil-code/lib/Language/Drasil/Mod.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-data</code></summary>
 
 * 
 
@@ -958,7 +959,7 @@ drasil-data/lib/Data/Drasil/Units/Thermodynamics.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-docLang</code></summary>
 
 * 
 
@@ -1002,7 +1003,7 @@ drasil-docLang/lib/Drasil/TraceTable.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -1149,7 +1150,7 @@ drasil-example/swhsnopcm/lib/Drasil/SWHSNoPCM/ODEs.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -1165,7 +1166,7 @@ drasil-gen/lib/Drasil/Generator/Generate.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-lang</code></summary>
 
 * 
 
@@ -1182,7 +1183,7 @@ drasil-lang/lib/Drasil/Code/CodeVar.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-metadata</code></summary>
 
 * 
 
@@ -1201,7 +1202,7 @@ drasil-metadata/lib/Drasil/Metadata/TheoryConcepts.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-printers</code></summary>
 
 * 
 
@@ -1277,7 +1278,7 @@ drasil-printers/lib/Language/Drasil/TeX/Helpers.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-system</code></summary>
 
 * 
 
@@ -1290,7 +1291,7 @@ drasil-system/lib/Drasil/System.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-theory</code></summary>
 
 * 
 
@@ -1306,7 +1307,7 @@ drasil-theory/lib/Theory/Drasil/MultiDefn.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
@@ -1327,7 +1328,7 @@ drasil-website/lib/Drasil/Website/Example.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 * 
 
@@ -1340,7 +1341,7 @@ drasil-code/lib/Language/Drasil/Code/Imperative/Build/Import.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-data</code></summary>
 
 * 
 
@@ -1365,7 +1366,7 @@ drasil-data/lib/Data/Drasil/Software/Products.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-docLang</code></summary>
 
 * 
 
@@ -1387,7 +1388,7 @@ drasil-docLang/lib/Drasil/Sections/TraceabilityMandGs.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -1460,7 +1461,7 @@ drasil-example/swhsnopcm/lib/Drasil/SWHSNoPCM/MetaConcepts.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -1473,7 +1474,7 @@ drasil-gen/lib/Drasil/Generator/Formats.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gool</code></summary>
 
 * 
 
@@ -1489,7 +1490,7 @@ drasil-gool/lib/Drasil/Shared/LanguageRenderer.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-system</code></summary>
 
 * 
 
@@ -1502,7 +1503,7 @@ drasil-system/lib/Drasil/System.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-theory</code></summary>
 
 * 
 
@@ -1527,7 +1528,7 @@ drasil-theory/lib/Theory/Drasil/Theory.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 * 
 
@@ -1646,7 +1647,7 @@ drasil-code/test/VectorTest.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -1659,7 +1660,7 @@ drasil-example/projectile/lib/Drasil/Projectile/Choices.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -1673,7 +1674,7 @@ drasil-gen/lib/Drasil/Generator/Generate.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
@@ -1688,7 +1689,7 @@ drasil-website/lib/Drasil/Website/CaseStudy.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 * 
 
@@ -1713,7 +1714,7 @@ drasil-docLang/lib/Drasil/TraceTable.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -1819,7 +1820,7 @@ drasil-example/template/lib/Drasil/Template/Body.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -1832,7 +1833,7 @@ drasil-gen/lib/Drasil/Generator/BaseChunkDB.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-system</code></summary>
 
 * 
 
@@ -1847,7 +1848,7 @@ drasil-system/lib/Drasil/System.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-data</code></summary>
 
 * 
 
@@ -1941,7 +1942,7 @@ drasil-data/lib/Data/Drasil/Units/Thermodynamics.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-docLang</code></summary>
 
 * 
 
@@ -1997,7 +1998,7 @@ drasil-docLang/lib/Drasil/Sections/TraceabilityMandGs.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -2647,7 +2648,7 @@ drasil-example/swhsnopcm/lib/Drasil/SWHSNoPCM/Unitals.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -2666,7 +2667,7 @@ drasil-gen/lib/Drasil/Generator/BaseChunkDB.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
@@ -2683,7 +2684,7 @@ drasil-website/lib/Drasil/Website/Body.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 *
 
@@ -2702,7 +2703,7 @@ drasil-code/lib/Language/Drasil/CodeSpec.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-docLang</code></summary>
 
 * 
 
@@ -2745,7 +2746,7 @@ drasil-docLang/lib/Drasil/Sections/TraceabilityMandGs.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -2787,6 +2788,14 @@ drasil-example/template/lib/Drasil/Template/Body.hs
 8:import Drasil.System (SystemKind(Specification), mkSystem)
 ```
 
+</details>
+
+<details>
+
+<summary><code>drasil-gen</code></summary>
+
+* 
+
 ```
 drasil-gen/lib/Drasil/Generator/ChunkDump.hs
 18:import Drasil.System (System, systemdb, traceTable, refbyTable)
@@ -2802,7 +2811,7 @@ drasil-gen/lib/Drasil/Generator/TypeCheck.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-printers</code></summary>
 
 * 
 
@@ -2827,7 +2836,7 @@ drasil-printers/lib/Language/Drasil/Printing/PrintingInformation.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
@@ -2848,7 +2857,7 @@ drasil-website/lib/Drasil/Website/Example.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 * 
 
@@ -2892,7 +2901,7 @@ drasil-code/lib/Language/Drasil/Code/Imperative/WriteReadMe.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-docLang</code></summary>
 
 * 
 
@@ -2921,7 +2930,7 @@ drasil-docLang/lib/Drasil/Sections/TableOfSymbols.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -2944,7 +2953,7 @@ drasil-gen/lib/Drasil/Generator/TypeCheck.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-printers</code></summary>
 
 * 
 
@@ -2963,7 +2972,7 @@ drasil-printers/lib/Language/Drasil/Printing/Import/Sentence.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
@@ -2980,7 +2989,7 @@ drasil-website/lib/Drasil/Website/Example.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-docLang</code></summary>
 
 * 
 
@@ -3011,7 +3020,7 @@ drasil-docLang/lib/Drasil/Sections/TableOfSymbols.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 *
 
@@ -3069,7 +3078,7 @@ drasil-example/template/lib/Drasil/Template/Body.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -3083,7 +3092,7 @@ drasil-gen/lib/Drasil/Generator/Generate.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
@@ -3098,7 +3107,7 @@ drasil-website/lib/Drasil/Website/Body.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-code</code></summary>
 
 * 
 
@@ -3114,7 +3123,7 @@ drasil-code/test/Main.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-example</code></summary>
 
 * 
 
@@ -3178,7 +3187,7 @@ drasil-example/swhsnopcm/lib/Drasil/SWHSNoPCM/ODEs.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-gen</code></summary>
 
 * 
 
@@ -3191,7 +3200,7 @@ drasil-gen/lib/Drasil/Generator/BaseChunkDB.hs
 
 <details>
 
-<summary><code>drasil-</code></summary>
+<summary><code>drasil-website</code></summary>
 
 * 
 
