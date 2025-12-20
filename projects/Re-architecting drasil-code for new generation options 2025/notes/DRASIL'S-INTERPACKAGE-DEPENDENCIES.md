@@ -725,7 +725,8 @@ drasil-printers/lib/Language/Drasil/Printing/PrintingInformation.hs
 
 <summary><code>drasil-system</code></summary>
 
-* 
+* A `ChunkDB` is a component of `System` that carries all knowledge necessary to
+  “explain” (build) the system.
 
 ```
 drasil-system/lib/Drasil/System.hs
@@ -738,7 +739,7 @@ drasil-system/lib/Drasil/System.hs
 
 <summary><code>drasil-theory</code></summary>
 
-* 
+* For defining chunk types.
 
 
 ```
@@ -770,7 +771,7 @@ drasil-theory/lib/Theory/Drasil/Theory.hs
 
 <summary><code>drasil-website</code></summary>
 
-* 
+* For building functions that can process the `ChunkDB`s of the other examples.
 
 ```
 drasil-website/lib/Drasil/Website/Body.hs
