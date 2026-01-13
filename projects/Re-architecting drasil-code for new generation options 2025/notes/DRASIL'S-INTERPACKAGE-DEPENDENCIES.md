@@ -786,7 +786,16 @@ drasil-website/lib/Drasil/Website/Body.hs
 
 <summary><code>drasil-code</code></summary>
 
-* 
+* For code that belongs in `drasil-code` but can't be moved there without
+  creating a dependency cycle (i.e., the `Drasil.Code.*` modules, including
+  `CodeExpr` and creating the wrapped version of `DefinedQuantityDict`
+  [`CodeChunk`, `CodeVarChunk`, `CodeFuncChunk`, etc.] for `drasil-code` to
+  use).
+* For (partially) re-using the `Space`-based type system from the mathematical
+  specification side of Drasil.
+* For re-using the `Sentence` system to build comments and descriptions (that go
+  in the `README`s, etc.).
+* For building ODE solver code (importing the structure of an IVP).
 
 ```
 drasil-code/lib/Data/Drasil/ExternalLibraries/ODELibraries.hs
@@ -901,7 +910,9 @@ drasil-code/lib/Language/Drasil/Mod.hs
 
 <summary><code>drasil-data</code></summary>
 
-* 
+`drasil-data` exclusively uses `drasil-lang` to create common instances of
+chunks, including terminology (`IdeaDict`s), definitions (`ConceptChunk`s),
+symbols (`Symbol`s), expressions (`Expr`), and people.
 
 ```
 drasil-data/lib/Data/Drasil/Citations.hs
